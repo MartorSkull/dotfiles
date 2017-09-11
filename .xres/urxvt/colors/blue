@@ -1,0 +1,50 @@
+! special
+URxvt*foreground:           #666699
+URxvt*background:           #000000
+URxvt*cursorColor:          #666699
+
+! black
+URxvt*color0:               #333366
+URxvt*color8:               #333399
+
+! red
+URxvt*color1:               #6666cc
+URxvt*color9:               #9999ff
+
+! green
+URxvt*color2:               #0099cc
+URxvt*color10:              #00ccff
+
+! yellow
+URxvt*color3:               #3366cc
+URxvt*color11:              #6699ff
+
+! blue
+URxvt*color4:               #006699
+URxvt*color12:              #0099cc
+
+! magenta
+URxvt*color5:               #0066ff
+URxvt*color13:              #0099ff
+
+! cyan
+URxvt*color6:               #669999
+URxvt*color14:              #66cccc
+
+! white
+URxvt*color7:               #99cccc
+URxvt*color15:              #ccffff
+
+
+! text efects
+URxvt*fading:              30
+!URxvt.depth:               32
+
+! scroll
+URxvt.scrollBar:           true
+URxvt*scrollstyle:         rxvt
+URxvt*scrollTtyOutput:     false
+URxvt*scrollWithBuffer:    true
+URxvt*scrollTtyKeypress:   true
+URxvt.scrollBar_right:     true
+URxvt.scrollBar_floating:  true
