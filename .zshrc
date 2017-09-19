@@ -48,7 +48,7 @@ HIST_STAMPS="dd/mm/yyyy"
 export VIRTUAL_ENV_DISABLE_PROMPT="true"
 
 # Would you like to use another custom folder than $ZSH/custom?
- ZSH_CUSTOM=~/.customomzsh
+ ZSH_CUSTOM=~/.customzsh
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -91,7 +91,6 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 alias testColors="~/.zfuncs/read_colors"
-alias testsh="workon dingo; cd python/Tomu/"
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
