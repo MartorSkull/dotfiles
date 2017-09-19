@@ -127,16 +127,16 @@
 			"file": ".zshrc",
 			"settings":
 			{
-				"buffer_size": 3734,
+				"buffer_size": 3732,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/martin/.config/i3/config",
+			"file": "installer.sh",
 			"settings":
 			{
-				"buffer_size": 5239,
+				"buffer_size": 204,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -300,6 +300,7 @@
 	],
 	"file_history":
 	[
+		"/home/martin/.config/i3/config",
 		"/home/martin/.dotfiles/.gitignore",
 		"/home/martin/.config/sublime-text-3/Packages/User/ColorSchemes/numixlike.sublime-scheme",
 		"/home/martin/python/Dalto/config/settings.py",
@@ -442,15 +443,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3734,
+						"buffer_size": 3732,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3688,
-								3688
+								1878,
+								1878
 							]
 						],
 						"settings":
@@ -458,7 +459,7 @@
 							"syntax": "Packages/ShellScript/Shell-Unix-Generic.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1440.0,
+						"translation.y": 548.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -466,29 +467,27 @@
 				},
 				{
 					"buffer": 1,
-					"file": "/home/martin/.config/i3/config",
+					"file": "installer.sh",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5239,
+						"buffer_size": 204,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5208,
-								5208
+								90,
+								90
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 8,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1935.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
