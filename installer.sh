@@ -7,4 +7,3 @@ ln -s ~/.dotfiles/.Xresources ~/
 ln -s ~/.dotfiles/.Xdefaults ~/
 ln -s ~/.dotfiles/.zfuncs/ ~/
 ln -s ~/.dotfiles/.xres/ ~/
-ln -s ~/.dotfiles/.virtualenvs/ ~/
