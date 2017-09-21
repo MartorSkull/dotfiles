@@ -48,7 +48,7 @@ HIST_STAMPS="dd/mm/yyyy"
 export VIRTUAL_ENV_DISABLE_PROMPT="true"
 
 # Would you like to use another custom folder than $ZSH/custom?
- ZSH_CUSTOM=~/.customzsh
+ZSH_CUSTOM=~/.customzsh
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -61,9 +61,6 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
  if [[ -n $SSH_CONNECTION ]]; then
@@ -107,12 +104,30 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+#set the distibution
+if [ -n "$(command -v lsb_release)" ]; then
+	export DISTRO=$(lsb_release -s -d)
+elif [ -f "/etc/os-release" ]; then
+	export DISTRO=$(grep PRETTY_NAME /etc/os-release | sed 's/PRETTY_NAME=//g' | tr -d '="')
+elif [ -f "/etc/debian_version" ]; then
+	export DISTRO="Debian $(cat /etc/debian_version)"
+elif [ -f "/etc/redhat-release" ]; then
+	export DISTRO=$(cat /etc/redhat-release)
+else
+	export DISTRO="$(uname -s) $(uname -r)"
+fi
+
 #devkit Variables
 export DEVKITPRO=/home/martin/.devkitPro
 export DEVKITARM=${DEVKITPRO}/devkitARM
 
 #virtualenvwrapper
-source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
+export WORKON_HOME=/home/martin/.virtualenvs
+if [[ $DISTRO =~ "^Arch" ]]; then
+    source /usr/bin/virtualenvwrapper.sh;
+else
+    source /usr/share/virtualenvwrapper/virtualenvwrapper.sh;
+fi
 
 #zsh functions
 fpath=(
