@@ -1,9 +1,5 @@
-#!/bin/bash
-ln -s ~/.dotfiles/.config/i3/ ~/.config/
-ln -s ~/.dotfiles/.config/i3blocks/ ~/.config/
-ln -s ~/.dotfiles/.customzsh/ ~/
-ln -s ~/.dotfiles/.zshrc ~/
-ln -s ~/.dotfiles/.Xresources ~/
-ln -s ~/.dotfiles/.Xdefaults ~/
-ln -s ~/.dotfiles/.zfuncs/ ~/
-ln -s ~/.dotfiles/.xres/ ~/
+#!/bin/zsh
+setopt extendedglob nomatch
+ln -s ~/.dotfiles/dotfiles/.config/** ~/.config/
+ln -s ~/.dotfiles/dotfiles/.local/bin/* ~/.local/bin/
+ln -s ~/.dotfiles/dotfiles/.*~*.config*~*.local* ~/

@@ -7,7 +7,7 @@ URxvt.italicFont              xft: myfont:size=myfontsize:italic
 URxvt.boldItalicFont          xft: myfont:size=myfontsize:bold:italic
 URxvt.letterSpace:            -1
 
-URxvt*loginShell:             false
+URxvt.loginShell:             false
 
 URxvt.internalBorder:         6
 URxvt.externalBorder:         0
@@ -15,17 +15,34 @@ URxvt.externalBorder:         0
 URxvt*print-pipe:             cat > $HOME/$(echo urxvt.dump.$(date +'%Y%M%d%H%m%S'))
 URxvt.iconFile:               /usr/share/icons/elementary-xfce/apps/48/terminal.png
 
-URxvt*perl-ext-common:        default,matcher,fullscreen
-URxvt*perl-ext:
+URxvt.perl-ext-common:        default,matcher
+URxvt.perl-ext:
 
-URxvt.keysym.F11:             perl:fullscreen:switch
-
-urxvt*url-launcher:           firefox
+urxvt.url-launcher:           firefox
 URxvt.matcher.button:         1
+
+URxvt.keysym.Control-Up:     \033[1;5A
+URxvt.keysym.Control-Down:   \033[1;5B
+URxvt.keysym.Control-Left:   \033[1;5D
+URxvt.keysym.Control-Right:  \033[1;5C
 
 URxvt.keysym.Shift-Control-V: eval:paste_clipboard
 URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
+
 URxvt.iso14755:               false
 URxvt.iso14755_52:            false
-urxvt.keysym.Home:            \033[1~
-urxvt.keysym.End:             \033[4~
+urxvt.keysym.home:            \033[1~
+urxvt.keysym.end:             \033[4~
+
+! text efects
+URxvt.fading:              30
+!URxvt.depth:               32
+
+! scroll
+URxvt.scrollBar:           true
+URxvt.scrollstyle:         rxvt
+URxvt.scrollTtyOutput:     false
+URxvt.scrollWithBuffer:    true
+URxvt.scrollTtyKeypress:   true
+URxvt.scrollBar_right:     true
+URxvt.scrollBar_floating:  true

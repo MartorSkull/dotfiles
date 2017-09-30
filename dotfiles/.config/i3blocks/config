@@ -1,0 +1,75 @@
+# align
+# color
+# command
+# full_text
+# instance
+# interval
+# label
+# min_width
+# name
+# separator
+# separator_block_width
+# short_text
+# signal
+# urgent
+# Global properties
+#
+# The top properties below are applied to every block, but can be overridden.
+# Each block command defaults to the script name to avoid boilerplate.
+
+command=/home/martin/.config/i3blocks/blocks/$BLOCK_NAME
+separator_block_width=15
+markup=none
+
+[volume]
+label=
+interval=once
+signal=10
+
+[wifi]
+interval=2
+label=
+
+[disk]
+interval=2
+instance=/
+separator=false
+label=/
+
+[disk]
+interval=2
+label=
+
+[cpu_freq]
+interval=1
+label= 
+
+[cpu_usage]
+interval=persist
+min_width= 99%
+markup=pango
+
+[batterybar]
+command=~/.config/i3blocks/blocks/batterybar
+interval=persist
+markup=pango
+
+[date]
+command=date "+%d-%m-%y"
+interval=10
+label= 
+
+[time]
+command=date "+%H:%M:%S"
+interval=1 
+label=
+
+[keyindicator]
+interval=once
+instance=NUM
+signal=11
+
+[shutdown_menu]
+full_text=  
+min_width= 
+command=/home/martin/.config/i3blocks/blocks/shutdown_menu && echo ""
