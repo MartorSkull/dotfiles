@@ -1,4 +1,4 @@
-rofi.modi:                          window,run,ssh,ws
+rofi.modi:                          window,run,ssh
 rofi.lines:                         7
 rofi.font:                          FontAwesome, DejaVu Sans 11
 rofi.color-normal:                  #2d2d2d, #f9f9f9, #333333, #d64937, #f9f9f9
@@ -16,3 +16,4 @@ rofi.scroll-method:                 1
 rofi.show-match:                    false
 rofi.kb-move-word-back:             Control+Left
 rofi.kb-move-word-forward:          Control+Right
+rofi.kb-row-down:                   Alt+Tab,Down,Control+n

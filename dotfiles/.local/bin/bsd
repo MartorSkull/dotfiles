@@ -1,0 +1,1 @@
+pacman -Ql bsd-games | grep -E "/usr/bin/[[:alpha:]]+" | sed -e "s/bsd-games \/usr\/bin\///"

@@ -41,7 +41,7 @@ set $ws8 8
 set $ws9 9
 set $ws10 10
 
-set $mod Mod1
+set $mod Mod4
 
 font pango:DejaVu Sans 9
 
@@ -56,23 +56,23 @@ bindsym $mod+Shift+q kill
 
 # start rofi (a program launcher)
 bindsym $mod+d exec --no-startup-id "rofi -show run"
-bindsym $mod+Tab exec --no-startup-id "rofi -show window"
+bindsym Mod1+Tab exec --no-startup-id "rofi -show window"
 
 
 # change focus
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # move focused window
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+o split h 
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -95,7 +95,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+c focus child
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -126,15 +126,15 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you even exit bruh?' -b 'You wot' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
     # These bindings trigger as soon as you enter the resize mode
-    bindsym Left resize shrink width 10 px or 10 ppt
-    bindsym Down resize grow height 10 px or 10 ppt
-    bindsym Up resize shrink height 10 px or 10 ppt
-    bindsym Right resize grow width 10 px or 10 ppt
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
@@ -142,6 +142,23 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+    font pango:FontAwesome, DejaVu Sans 8
+    status_command i3blocks
+    tray_output primary
+    colors {
+        background $background
+        statusline $mwhite
+
+        focused_workspace  $mwhite $red 
+        active_workspace   #mwhite $blue
+        inactive_workspace #888888 $black 
+        urgent_workspace   $mwhite $yellow $red
+    }
+}
 
 bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 
@@ -156,33 +173,29 @@ bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
-bindsym $mod+Ctrl+l exec "~/.local/bin/i3lock++.sh blur && xset dpms force off"
+bindsym Mod1+Ctrl+l exec "~/.local/bin/i3lock++ blur && xset dpms force off"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-bar {
-    font pango:FontAwesome, DejaVu Sans 8
-    status_command i3blocks
-    tray_output primary
-    colors {
-        background $background
-        statusline $mwhite
-
-        focused_workspace  $mwhite $red
-        active_workspace   #mwhite $blue
-        inactive_workspace #888888 $black
-        urgent_workspace   $mwhite $yellow $red
-    }
-}
+bindsym --release Ctrl+$mod+s exec "scrot -d 2"
 
 assign [class="^Firefox$"] $ws1
 assign [class="^Sublime_text$"] $ws2
+assign [class="^Code$"] $ws2
+assign [class="^NetBeans IDE 8.2$"] $ws2
 assign [class="^Thunar$"] $ws4
 for_window [class="Spotify"] move to workspace $ws5
-for_window [class="^.*"] border pixel 3
+
+for_window [class="^.*"] border pixel 2
+floating_maximum_size -1 x -1
 
 gaps inner 5
 gaps outer 0
+# class                 border  backgr.  text    indicator child_border
+client.focused          $lblack $red     $white  $lred     $red
+client.focused_inactive $lblack $lblack  $mwhite $lblack   $lblack
+client.unfocused        $black  $black   $mwhite $black    $black
+client.urgent           $yelow  $lyellow $white  $yellow   $yellow
+client.placeholder      #000000 #0c0c0c  #ffffff #000000   #0c0c0c
 
 exec_always --no-startup-id feh --bg-fill --randomize ~/.wallpapers/*
-exec xautolock -time 15 -locker '~/.local/bin/i3lock++.sh blur & && xset dpms force off' &
+#exec_always --no-startup-id feh --bg-fill ~/.wallpapers/Fox.jpg
+exec_always "xautolock -time 4 -locker '~/.local/bin/i3lock++ blur && xset dmps force off'"

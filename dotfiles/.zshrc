@@ -57,9 +57,9 @@ source $ZSH/oh-my-zsh.sh
 
 # Preferred editor for local and remote sessions
  if [[ -n $SSH_CONNECTION ]]; then
-   export EDITOR='nano'
+   export EDITOR='vim'
  else
-   export EDITOR='nano'
+   export EDITOR='vi'
  fi
 
 # Compilation flags
@@ -74,6 +74,7 @@ alias la='ls -A'
 alias l='ls -CF'
 alias testColors="~/.zfuncs/read_colors"
 alias neofetch="neofetch --cpu_speed off --cpu_brand off --gpu_brand off --block_range 0 15 --block_width 4 --shell_path on --shell_version off"
+alias dia="dia --integrated"
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
@@ -124,3 +125,17 @@ fpath=(
 
 #theme values
 export DEFAULT_USER="martin"
+# Add environment variable COCOS_CONSOLE_ROOT for cocos2d-x
+export COCOS_CONSOLE_ROOT="/home/martin/Downloads/cocos2d-x-3.16/tools/cocos2d-console/bin"
+export PATH=$COCOS_CONSOLE_ROOT:$PATH
+
+# Add environment variable COCOS_X_ROOT for cocos2d-x
+export COCOS_X_ROOT="/home/martin/Downloads"
+export PATH=$COCOS_X_ROOT:$PATH
+
+# Add environment variable COCOS_TEMPLATES_ROOT for cocos2d-x
+export COCOS_TEMPLATES_ROOT="/home/martin/Downloads/cocos2d-x-3.16/templates"
+export PATH=$COCOS_TEMPLATES_ROOT:$PATH
+
+# Android enviroment
+export ANDROID_HOME=/opt/android-sdk

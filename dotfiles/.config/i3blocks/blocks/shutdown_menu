@@ -27,7 +27,7 @@
 #######################################################################
 
 # Use a custom lock script
-LOCKSCRIPT="$HOME/.local/bin/locker.sh"
+LOCKSCRIPT="$HOME/.local/bin/i3lock++ blur && xset dpms force off"
 
 # Colors: FG (foreground), BG (background), HL (highlighted)
 FG_COLOR="#FFFFFF"

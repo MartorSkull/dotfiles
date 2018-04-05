@@ -1,0 +1,2 @@
+echo -n "Yiy what "
+echo $2

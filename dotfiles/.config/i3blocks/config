@@ -29,6 +29,11 @@ signal=10
 [wifi]
 interval=2
 label=
+separator=false
+
+[iface]
+interval=10
+markup=pango
 
 [disk]
 interval=2
@@ -42,7 +47,7 @@ label=
 
 [cpu_freq]
 interval=1
-label= 
+label=
 
 [cpu_usage]
 interval=persist
@@ -70,6 +75,6 @@ instance=NUM
 signal=11
 
 [shutdown_menu]
-full_text=  
+full_text= 
 min_width= 
 command=/home/martin/.config/i3blocks/blocks/shutdown_menu && echo ""

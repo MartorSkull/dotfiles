@@ -91,7 +91,7 @@ do
     case "$status" in
     "Charging")
         color="$charging_color"
-        squares=""
+        squares=""
     ;;
     "Full")
         color="$full_color"
