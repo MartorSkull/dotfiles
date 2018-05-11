@@ -1,2 +1,3 @@
+#!/bin/bash
 echo -n "Yiy what "
 echo $2
