@@ -27,15 +27,15 @@ autoload -Uz compinit
 compinit
 
 # User configuration
-
 export MANPATH="/usr/local/man:$MANPATH" 	#Manpat variable
 export ARCHFLAGS="-arch x86_64" 		#Compilation flags
 export SSH_KEY_PATH="~/.ssh/rsa_id" 		#SSH Key
 export DEFAULT_USER=$USER 			#Default User
-export ANDROID_HOME=/opt/android-sdk 		#Android enviroment
+export ANDROID_HOME=~/Android/Sdk		#Android enviroment
 export VIRTUAL_ENV_DISABLE_PROMPT="true" 	#Disable virtual env prompt
 export DEVKITPRO=/home/martin/.devkitPro 	#Devkit variable
 export DEVKITARM=${DEVKITPRO}/devkitARM 	#DevkitARM variable
+export GPG_TTY=$(tty)
 
 # Set personal aliases
 alias ll='ls -alF'
@@ -59,11 +59,11 @@ else
 fi
 
 # Preferred editor for local and remote sessions
- if [[ -n $SSH_CONNECTION ]]; then
-   export EDITOR='vi'
- else
-   export EDITOR='vim'
- fi
+if [[ -n $SSH_CONNECTION ]]; then
+	export EDITOR='vi'
+else
+	export EDITOR='vim'
+fi
 
 #zsh functions
 fpath=(
@@ -75,8 +75,7 @@ fpath=(
 #virtualenvwrapper
 export WORKON_HOME=/home/martin/.virtualenvs
 if [[ $DISTRO =~ "^Arch" ]]; then
-    source /usr/bin/virtualenvwrapper.sh;
+	source /usr/bin/virtualenvwrapper.sh;
 else
-    source /usr/share/virtualenvwrapper/virtualenvwrapper.sh;
+	source /usr/share/virtualenvwrapper/virtualenvwrapper.sh;
 fi
-

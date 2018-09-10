@@ -34,7 +34,9 @@ fi
 
 export TERMINAL="urxvtc"
 /usr/bin/urxvtd &
-/usr/bin/numlockx on 
+/usr/bin/numlockx on
+
+eval $(gpg-agent --daemon)
 
 dbus-launch ck-launch-session $1 &
 
