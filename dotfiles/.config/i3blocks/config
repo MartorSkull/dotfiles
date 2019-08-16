@@ -54,10 +54,9 @@ interval=persist
 min_width= 99%
 markup=pango
 
-[batterybar]
-command=~/.config/i3blocks/blocks/batterybar
-interval=persist
-markup=pango
+[mybattery]
+command=~/.config/i3blocks/blocks/mybattery
+interval=5
 
 [date]
 command=date "+%d-%m-%y"

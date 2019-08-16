@@ -116,6 +116,7 @@ menu=(
   [Shutdown]="systemctl poweroff"
   [Reboot]="systemctl reboot"
   [Suspend]="systemctl suspend"
+  [Hibernate]="systemctl hibernate"
   [Lock]="${LOCKSCRIPT}"
   [Logout]="i3-msg exit"
   [Cancel]=""

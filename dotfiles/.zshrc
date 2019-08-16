@@ -1,6 +1,6 @@
 # Oh-My-Zsh Configuration
 export ZSH=~/.oh-my-zsh 	#Path to your oh-my-zsh installation.
-ZSH_THEME="customagnoster" 	#Set the theme
+ZSH_THEME="customagnoster"	#Set the theme
 CASE_SENSITIVE="false" 		#Case-sensitive completition
 DISABLE_AUTO_UPDATE="false" 	#Auto update
 DISABLE_LS_COLORS="false" 	#Colors for ls
@@ -31,14 +31,18 @@ export MANPATH="/usr/local/man:$MANPATH" 	#Manpat variable
 export ARCHFLAGS="-arch x86_64" 		#Compilation flags
 export SSH_KEY_PATH="~/.ssh/rsa_id" 		#SSH Key
 export DEFAULT_USER=$USER 			#Default User
-export ANDROID_HOME=~/Android/Sdk		#Android enviroment
 export VIRTUAL_ENV_DISABLE_PROMPT="true" 	#Disable virtual env prompt
 export DEVKITPRO=/home/martin/.devkitPro 	#Devkit variable
 export DEVKITARM=${DEVKITPRO}/devkitARM 	#DevkitARM variable
-export GPG_TTY=$(tty)
+export GPG_TTY=$(tty)				#Add gpg
+export ANDROID_HOME=~/Android/Sdk		#Android enviroment
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # Set personal aliases
-alias ll='ls -alF'
+alias ll='ls -AlF'
 alias la='ls -A'
 alias l='ls -CF'
 alias testColors="~/.zfuncs/read_colors"
