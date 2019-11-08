@@ -17,9 +17,12 @@
 # The top properties below are applied to every block, but can be overridden.
 # Each block command defaults to the script name to avoid boilerplate.
 
-command=/home/martin/.config/i3blocks/blocks/$BLOCK_NAME
+command=$HOME/.config/i3blocks/blocks/$BLOCK_NAME
 separator_block_width=15
 markup=none
+
+[mediaplayer]
+interval=1
 
 [volume]
 label=
@@ -48,6 +51,7 @@ label=
 [cpu_freq]
 interval=1
 label=
+markup=pango
 
 [cpu_usage]
 interval=persist

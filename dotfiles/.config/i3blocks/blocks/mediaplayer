@@ -56,6 +56,7 @@ if ($player_arg eq '' or $player_arg =~ /cmus$/) {
         if (@metadata) {
             # metadata found so we are done
             print(join ' - ', @metadata);
+	    print("\n");
             exit 0;
         }
     }
@@ -64,13 +65,14 @@ if ($player_arg eq '' or $player_arg =~ /cmus$/) {
     exit 0 unless $player_arg eq '';
 }
 
-my $artist = qx(playerctl $player_arg metadata artist);
+my $artist = substr qx(playerctl $player_arg metadata artist), 0, -1;
 # exit status will be nonzero when playerctl cannot find your player
 exit(0) if $?;
 push(@metadata, $artist) if $artist;
 
-my $title = qx(playerctl $player_arg metadata title);
+my $title = substr qx(playerctl $player_arg metadata title), 0, -1;
 exit(0) if $?;
 push(@metadata, $title) if $title;
 
 print(join(" - ", @metadata)) if @metadata;
+print("\n");

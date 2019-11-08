@@ -22,7 +22,7 @@ unsetopt appendhistory autocd beep notify
 bindkey -e
 
 # The following lines were added by compinstall
-zstyle :compinstall filename '/home/martin/.zshrc'
+zstyle :compinstall filename "$HOME/.zshrc"
 autoload -Uz compinit
 compinit
 
