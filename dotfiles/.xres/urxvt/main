@@ -22,7 +22,7 @@ URxvt.iconFile:			/usr/share/icons/elementary-xfce/apps/48/terminal.png
 URxvt.perl-ext-common:		default,matcher
 URxvt.perl-ext:
 
-urxvt.url-launcher:		firefox
+urxvt.url-launcher:		firefox-developer-edition
 URxvt.matcher.button:		1
 
 URxvt.keysym.Control-Up:	\033[1;5A
