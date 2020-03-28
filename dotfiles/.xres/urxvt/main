@@ -1,14 +1,12 @@
-#define myfont DejaVu Sans Mono 
-#define powerlinefont PowerlineSymbols
+#define myfont DejaVu Sans Mono for Powerline
 #define iconfont FontAwesome
 #define myfontsize 10
 
-URxvt.font:			xft: myfont:size=myfontsize:Book,\
-				xft: powerlinefont:size=myfontsize:Book,\
-				xft: iconfont:size=myfontsize:Book
-URxvt.boldFont:			xft: myfont:size=myfontsize:bold,\
-URxvt.italicFont		xft: myfont:size=myfontsize:italic,\
-URxvt.boldItalicFont		xft: myfont:size=myfontsize:bold:italic,\
+URxvt.font:			xft:myfont:size=myfontsize:Book,\
+				xft:iconfont:size=myfontsize:Book
+URxvt.boldFont:			xft:myfont:size=myfontsize:bold
+URxvt.italicFont:		xft:myfont:size=myfontsize:italic
+URxvt.boldItalicFont:		xft:myfont:size=myfontsize:bold:italic
 URxvt.letterSpace:		-1
 
 URxvt.loginShell:		false
@@ -22,7 +20,7 @@ URxvt.iconFile:			/usr/share/icons/elementary-xfce/apps/48/terminal.png
 URxvt.perl-ext-common:		default,matcher
 URxvt.perl-ext:
 
-urxvt.url-launcher:		firefox-developer-edition
+URxvt.url-launcher:		firefox-developer-edition
 URxvt.matcher.button:		1
 
 URxvt.keysym.Control-Up:	\033[1;5A
@@ -35,8 +33,8 @@ URxvt.keysym.Shift-Control-C:	eval:selection_to_clipboard
 
 URxvt.iso14755:			false
 URxvt.iso14755_52:		false
-urxvt.keysym.home:		\033[1~
-urxvt.keysym.end:		\033[4~
+uRxvt.keysym.home:		\033[1~
+uRxvt.keysym.end:		\033[4~
 
 ! text efects
 URxvt.fading:			30

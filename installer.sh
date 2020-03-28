@@ -1,5 +1,5 @@
 #!/bin/zsh
 setopt extendedglob nomatch
-ln -s ~/.dotfiles/dotfiles/.config/** ~/.config/
-ln -s ~/.dotfiles/dotfiles/.local/bin/* ~/.local/bin/
-ln -s ~/.dotfiles/dotfiles/.*~*.config*~*.local* ~/
+ln -fs ~/.dotfiles/dotfiles/.config/** ~/.config/
+ln -fs ~/.dotfiles/dotfiles/.local/bin/* ~/.local/bin/
+ln -fs ~/.dotfiles/dotfiles/.*~*.config*~*.local* ~/
