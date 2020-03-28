@@ -32,7 +32,7 @@ export ARCHFLAGS="-arch x86_64" 		#Compilation flags
 export SSH_KEY_PATH="~/.ssh/rsa_id" 		#SSH Key
 export DEFAULT_USER=$USER 			#Default User
 export VIRTUAL_ENV_DISABLE_PROMPT="true" 	#Disable virtual env prompt
-export DEVKITPRO=/home/martin/.devkitPro 	#Devkit variable
+export DEVKITPRO=~/.devkitPro 			#Devkit variable
 export DEVKITARM=${DEVKITPRO}/devkitARM 	#DevkitARM variable
 export GPG_TTY=$(tty)				#Add gpg
 export ANDROID_HOME=~/Android/Sdk		#Android enviroment
@@ -77,7 +77,7 @@ fpath=(
 )
 
 #virtualenvwrapper
-export WORKON_HOME=/home/martin/.virtualenvs
+export WORKON_HOME=~/.virtualenvs
 if [[ $DISTRO =~ "^Arch" ]]; then
 	source /usr/bin/virtualenvwrapper.sh;
 else
