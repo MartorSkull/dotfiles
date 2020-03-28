@@ -40,7 +40,7 @@
     ### Icons ###
     icon_position = left            # Align icons.
     max_icon_size = 32              # Scale larger icons down to this size, set to 0 to disable.
-    icon_path = /usr/share/icons/Papirus-Dark/16x16/actions:/usr/share/icons/Papirus-Dark/16x16/apps  # Icon path.
+    icon_path = /usr/share/icons/Papirus-Dark/16x16/actions/:/usr/share/icons/Papirus-Dark/16x16/apps/  # Icon path.
 
     ### History ###
     sticky_history = yes            # History notification type.
@@ -76,13 +76,13 @@
 [urgency_low]
     background = "#1d1f21"
     foreground = "#c5c8c6"
-    frame_color = "#3759d6"
+    frame_color = "#5e8d87"
     timeout = 10
 
 [urgency_normal]
     background = "#1d1f21"
     foreground = "#c5c8c6"
-    frame_color = "#37d645"
+    frame_color = "#3759d6"
     timeout = 10
 
 [urgency_critical]
@@ -90,6 +90,17 @@
     foreground = "#c5c8c6"
     frame_color = "#d64937"
     timeout = 0
+
+[spotify_color]
+    appname = Spotify
+    frame_color = "#37d645"
+    format = "<b>%s</b>\n%b"
+
+[cmus_color]
+    appname = cmus
+    set_stack_tag = true
+    frame_color = "#37d645"
+    format = "<b>%s</b>\n%b"
 
 # Every section that isn't one of the above is interpreted as a rules to
 # override settings for certain messages.
