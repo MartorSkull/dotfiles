@@ -68,10 +68,9 @@
     per_monitor_dpi = false         # Calculate the dpi to use on a per-monitor basis.
 
 [shortcuts]
-    close = ctrl+space              # Close notification.
-    close_all = ctrl+shift+space    # Close all notifications.
-    history = ctrl+grave            # Redisplay last message(s).
-    context = ctrl+shift+period     # Context menu.
+    close = mod4+m                  # Close notification.
+    history = mod4+n                # Redisplay last message(s).
+    context = mod4+period     # Context menu.
 
 [urgency_low]
     background = "#1d1f21"
