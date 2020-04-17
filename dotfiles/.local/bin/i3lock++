@@ -17,7 +17,7 @@
 ####################################################################
 
 IMG='/tmp/i3lock.png'            # path of screenshot
-SCT='import -window root'        # screenshot command
+SCT='scrot -o -z'        # screenshot command
 
               ##########################################
               #                                        #

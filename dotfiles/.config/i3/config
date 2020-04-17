@@ -221,4 +221,5 @@ client.placeholder      #000000 #0c0c0c  #ffffff #000000   #0c0c0c
 #exec_always --no-startup-id feh --bg-fill --randomize ~/.wallpapers/*
 exec_always --no-startup-id feh --bg-fill ~/.wallpapers/Fox.jpg
 exec_always "xautolock -time 4 -locker '~/.local/bin/i3lock++ blur && xset dmps force off'"
-exec_always "ckb-next --background"
+exec --no-startup-id "ckb-next --background"
+exec --no-startup-id "ibus-daemon -drx --panel /usr/lib/ibus/ibus-ui-gtk3"
