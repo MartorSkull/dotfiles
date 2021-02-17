@@ -5,7 +5,7 @@
 
     ### Sizes ###
     ## Notification ##
-    geometry = "400x10-4-21"        # The geometry of the message window.
+    geometry = "400x10-0-18"        # The geometry of the message window.
     notification_height = 0         # The height of the entire notification.
     horizontal_padding = 6          # Horizontal padding.
     frame_width = 2                 # Width of the frame.
@@ -48,7 +48,7 @@
 
     ### Misc/Advanced ###
     dmenu = /usr/bin/dmenu -p dunst # dmenu path.
-    browser = /usr/bin/firefox-developer-edition -new-tab  # Browser path.
+    browser = /usr/bin/google-chrome-stable  # Browser path.
     always_run_script = true        # Always run rule-defined scripts, even if the notification is suppressed.
     title = Dunst                   # Define the title of the windows spawned by dunst.
     class = Dunst                   # Define the class of the windows spawned by dunst.

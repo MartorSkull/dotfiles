@@ -35,8 +35,8 @@ set $ws2 2:
 set $ws3 3:
 set $ws4 4:
 set $ws5 5:
-set $ws6 6
-set $ws7 7
+set $ws6 6:
+set $ws7 7:
 set $ws8 8
 set $ws9 9
 set $ws10 10
@@ -139,7 +139,7 @@ mode "resize" {
     bindsym j resize grow height 10 px or 10 ppt
     bindsym k resize shrink height 10 px or 10 ppt
     bindsym l resize grow width 10 px or 10 ppt
-
+#Workspaces
     # back to normal: Enter or Escape
     bindsym Return mode "default"
     bindsym Escape mode "default"
@@ -173,7 +173,7 @@ bar {
         statusline $mwhite
 
         focused_workspace  $mwhite $red 
-        active_workspace   #mwhite $blue
+        active_workspace   $mwhite $blue
         inactive_workspace #888888 $black 
         urgent_workspace   $mwhite $yellow $red
     }
@@ -192,9 +192,11 @@ bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
-bindsym Mod1+Ctrl+l exec "~/.local/bin/i3lock++ blur && xset dpms force off"
+bindsym $mod+Ctrl+l exec "~/.local/bin/i3lock++ blur && xset dpms force off"
 
-bindsym --release Ctrl+$mod+s exec "scrot"
+bindsym --release Shift+$mod+s exec "maim -s --format png | xclip -selection clipboard -t image/png -i"
+
+bindsym $mod+minus sticky toggle
 
 assign [class="^firefox"] $ws1
 assign [class="^Google-chrome"] $ws1
@@ -212,8 +214,8 @@ assign [class="Mailspring"] $ws7
 for_window [class="^.*"] border pixel 2
 floating_maximum_size -1 x -1
 
-gaps inner 5
-gaps outer 0
+#gaps inner 5
+#gaps outer 0
 # class                 border  backgr.  text    indicator child_border
 client.focused          $lblack $red     $white  $lred     $red
 client.focused_inactive $lblack $lblack  $mwhite $lblack   $lblack

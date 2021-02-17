@@ -28,6 +28,8 @@ my $player_arg = "";
 
 if ($BLOCK_INSTANCE) {
     $player_arg = "--player='$BLOCK_INSTANCE'";
+} elsif (!system("playerctl --player=spotify status > /dev/null")) {
+    $player_arg="--player=spotify"
 }
 
 if ($ENV{'BLOCK_BUTTON'} == 1) {
