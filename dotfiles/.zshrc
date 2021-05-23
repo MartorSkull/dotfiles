@@ -1,15 +1,19 @@
 # Oh-My-Zsh Configuration
-export ZSH=~/.oh-my-zsh     # Path to your oh-my-zsh installation.
+export ZSH=/usr/share/oh-my-zsh     # Path to your oh-my-zsh installation.
 ZSH_THEME="customagnoster"  # Set the theme
 CASE_SENSITIVE="false"      # Case-sensitive completition
-DISABLE_AUTO_UPDATE="false" # Auto update
+DISABLE_AUTO_UPDATE="true"  # Do not auto update (using aur)
 DISABLE_LS_COLORS="false"   # Colors for ls
 DISABLE_AUTO_TITLE="true"   # Set the terminal title automatically
 COMPLETION_WAITING_DOTS="false" # I don't like the dots
 HIST_STAMPS="dd/mm/yyyy"    # History timestamps
 ZSH_CUSTOM=~/.customzsh     # Set my custom zsh folder
 plugins=(git                # Which plugins to load
-    bgnotify)
+	bgnotify)
+ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
+if [[ ! -d $ZSH_CACHE_DIR ]]; then
+  mkdir $ZSH_CACHE_DIR
+fi
 source $ZSH/oh-my-zsh.sh    # Source the oh-my-zsh file
 
 # Zsh configuration
@@ -63,13 +67,8 @@ else
     export DISTRO="$(uname -s) $(uname -r)"
 fi
 
-# Preferred editor for local and remote sessions
+# Preferred editor 
 export EDITOR='vim'
-# if [[ -n $SSH_CONNECTION ]]; then
-#     export EDITOR='vi'
-# else
-#     export EDITOR='vim'
-# fi
 
 #zsh functions
 fpath=(
@@ -81,7 +80,11 @@ fpath=(
 #virtualenvwrapper
 export WORKON_HOME=~/.virtualenvs
 if [[ $DISTRO =~ "^Arch" ]]; then
-    source /usr/bin/virtualenvwrapper.sh;
+    if [[ -a /usr/bin/virtualenvwrapper ]]; then
+        source /usr/bin/virtualenvwrapper.sh;
+    fi
 else
-    source /usr/share/virtualenvwrapper/virtualenvwrapper.sh;
+    if [[ -a /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]]; then
+        source /usr/share/virtualenvwrapper/virtualenvwrapper.sh;
+    fi
 fi

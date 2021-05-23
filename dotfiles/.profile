@@ -19,11 +19,4 @@ fi
 # set PATH so it includes user's private bin directories
 PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
-export TERMINAL="urxvtc"
-/usr/bin/urxvtd &
-
 eval $(gpg-agent --daemon)
-
-export GTK_IM_MODULE=xim
-export XMODIFIERS=@im=ibus
-export QT_IM_MODULE=xim

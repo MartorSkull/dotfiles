@@ -1,5 +1,3 @@
 #!/bin/bash
-scrot -o -z /tmp/screen.png
-convert /tmp/screen.png -blur 0x6 /tmp/screen_locked.png
-rm /tmp/screen.png
-i3lock -i /tmp/screen_locked.png
+betterlockscreen -l blur &
+xset dpms force off

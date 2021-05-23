@@ -190,6 +190,14 @@ prompt_dir() {
   prompt_segment red black '%~'
 }
 
+# Conda: current working condaenv
+prompt_condaenv() {
+  local condaenv_path="$CONDA_DEFAULT_ENV"
+  if [[ -n $condaenv_path ]]; then
+    prompt_segment green black "`basename $condaenv_path`"
+  fi
+}
+
 # Virtualenv: current working virtualenv
 prompt_virtualenv() {
   local virtualenv_path="$VIRTUAL_ENV"
@@ -217,6 +225,7 @@ build_prompt() {
   RETVAL=$?
   prompt_status
   prompt_virtualenv
+  prompt_condaenv
   prompt_context
   prompt_dir
   prompt_git
