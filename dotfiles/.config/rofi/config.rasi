@@ -1,0 +1,7 @@
+configuration {
+    modi:               "run,window,ssh";
+    scroll-method:      1;
+    matching:           "regex";
+}
+
+@theme "/home/martor/.config/rofi/themes/numix.rasi"

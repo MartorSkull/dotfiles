@@ -21,6 +21,7 @@ command=$HOME/.config/i3blocks/blocks/$BLOCK_NAME
 separator_block_width=15
 markup=none
 
+
 [mediaplayer]
 interval=1
 
@@ -29,10 +30,17 @@ label=
 interval=once
 signal=10
 
-[wifi]
-interval=2
-label=
+
+[iface]
+interval=10
+instance=enp3s0
 separator=false
+markup=pango
+
+[iface]
+interval=10
+instance=br0
+markup=pango
 
 [iface]
 interval=10
@@ -48,23 +56,26 @@ label=/
 interval=2
 label=
 
+[memory]
+label=
+separator=false
+interval=30
+
 [cpu_freq]
 interval=1
 label=
+separator=false
 markup=pango
 
 [cpu_usage]
 interval=persist
-min_width= 99%
+min_width= 100%
 markup=pango
-
-[mybattery]
-command=~/.config/i3blocks/blocks/mybattery
-interval=5
 
 [date]
 command=date "+%d-%m-%y"
 interval=10
+separator=false
 label= 
 
 [time]
@@ -80,4 +91,4 @@ signal=11
 [shutdown_menu]
 full_text= 
 min_width= 
-command=/home/martin/.config/i3blocks/blocks/shutdown_menu && echo ""
+command=$HOME/.config/i3blocks/blocks/shutdown_menu && echo ""

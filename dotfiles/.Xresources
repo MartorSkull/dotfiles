@@ -1,3 +1,2 @@
 #include ".xres/urxvt/main"
 #include ".xres/colors/numixlike"
-#include ".xres/rofi/main"

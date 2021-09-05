@@ -53,6 +53,7 @@ alias l='ls -CF'
 alias test_colors="~/.zfuncs/read_colors"
 alias neofetch="neofetch --cpu_speed off --cpu_brand off --gpu_brand off --block_range 0 15 --block_width 4 --shell_path on --shell_version off"
 alias dia="dia --integrated"
+alias tardiff="git status && git status --porcelain=v1 | awk '{print \$2}' | tar -cvf output.tar -T -"
 
 #set the distibution
 if [ -n "$(command -v lsb_release)" ]; then
@@ -80,11 +81,11 @@ fpath=(
 #virtualenvwrapper
 export WORKON_HOME=~/.virtualenvs
 if [[ $DISTRO =~ "^Arch" ]]; then
-    if [[ -a /usr/bin/virtualenvwrapper ]]; then
+    if [ -e /usr/bin/virtualenvwrapper.sh ]; then
         source /usr/bin/virtualenvwrapper.sh;
     fi
 else
-    if [[ -a /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]]; then
+    if [ -e /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]; then
         source /usr/share/virtualenvwrapper/virtualenvwrapper.sh;
     fi
 fi

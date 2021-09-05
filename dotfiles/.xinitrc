@@ -34,7 +34,6 @@ fi
 
 export TERMINAL="urxvtc"
 /usr/bin/urxvtd &
-/usr/bin/numlockx on
 
 eval $(gpg-agent --daemon)
 

@@ -59,17 +59,21 @@ bindsym $mod+d exec --no-startup-id "rofi -show run"
 bindsym Mod1+Tab exec --no-startup-id "rofi -show window"
 
 
-# change focus
+# change focus within monitor
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
 
-# move focused window
+# move focused window within monitor
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
+
+# change focus between monitors
+bindsym $mod+greater focus output right
+bindsym $mod+less focus output left
 
 # move focused window between monitors
 bindsym $mod+Shift+greater move workspace to output right

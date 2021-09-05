@@ -19,7 +19,7 @@
 
 # Use the provided interface, otherwise the device used for the default route.
 count=0
-IF=enp1s0
+[ -n "${BLOCK_INSTANCE}" ] && IF=$BLOCK_INSTANCE || IF=enp4s0
 
 	if [ $count -gt 30 ]; then
 	  	IF_NEW=$(ip route | awk '/^default/ { print $5 ; exit }')
@@ -38,7 +38,7 @@ IF=enp1s0
 
 	#------------------------------------------------------------------------
 	if [ "$(cat /sys/class/net/${IF}/operstate)" = 'down' ]; then
-		echo "<span foreground=\"#EC819E\"> (down)</span>"
+		echo ""
 	else
 		case $1 in
 		  -4)
@@ -53,11 +53,11 @@ IF=enp1s0
 		IPADDR=$(ip addr show $IF | perl -n -e "/$AF ([^\/]+).* scope global/ && print \$1 and exit")
 
 		case $BLOCK_BUTTON in
-		  3) echo $IPADDR | xclip -selection c ;;
+		  3) echo $IPADDR | xclip -selection c && notify-send -u low -a iface "Copied ${IPADDR}" ;;
 		esac 
 
 		#------------------------------------------------------------------------
 
-		echo "<span foreground=\"#f9f9f9\"> $IPADDR</span>"
+		([ -n "${IPADDR}" ] && echo "<span foreground=\"#f9f9f9\">($IF) $IPADDR</span>") || echo ""
 	fi
 

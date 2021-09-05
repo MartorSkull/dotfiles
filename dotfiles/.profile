@@ -18,5 +18,6 @@ fi
 
 # set PATH so it includes user's private bin directories
 PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+export QSYS_ROOTDIR="/opt/intelFPGA/20.1/quartus/sopc_builder/bin"
 
 eval $(gpg-agent --daemon)
