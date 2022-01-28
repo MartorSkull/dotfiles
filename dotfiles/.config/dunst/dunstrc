@@ -5,8 +5,11 @@
 
     ### Sizes ###
     ## Notification ##
-    geometry = "400x10-0-18"        # The geometry of the message window.
-    notification_height = 0         # The height of the entire notification.
+    #geometry = "400x10-0-18"        # The geometry of the message window.
+    width = 400
+    origin = bottom-right
+    offset = 0x18
+    #notification_height = 0         # The height of the entire notification.
     horizontal_padding = 6          # Horizontal padding.
     frame_width = 2                 # Width of the frame.
     corner_radius = 0               # Define the corner radius of the notification window
@@ -36,7 +39,7 @@
     alignment = left                # Alignment of message text.
     word_wrap = yes                 # Split notifications into multiple lines.
     ellipsize = middle              # When word_wrap is set to no, specify where to make an ellipsis in long lines.
-    
+
     ### Icons ###
     icon_position = left            # Align icons.
     max_icon_size = 32              # Scale larger icons down to this size, set to 0 to disable.
@@ -52,8 +55,6 @@
     always_run_script = true        # Always run rule-defined scripts, even if the notification is suppressed.
     title = Dunst                   # Define the title of the windows spawned by dunst.
     class = Dunst                   # Define the class of the windows spawned by dunst.
-    startup_notification = false    # Print a notification on startup.
-    verbosity = mesg                # Define verbosity.
 
     ### Legacy ###
     force_xinerama = false          # Use the Xinerama extension instead of RandR for multi-monitor support.
@@ -66,11 +67,6 @@
 
 [experimental]
     per_monitor_dpi = false         # Calculate the dpi to use on a per-monitor basis.
-
-[shortcuts]
-    close = mod4+m                  # Close notification.
-    history = mod4+n                # Redisplay last message(s).
-    context = mod4+period     # Context menu.
 
 [urgency_low]
     background = "#1d1f21"

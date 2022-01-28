@@ -80,7 +80,7 @@ bindsym $mod+Shift+greater move workspace to output right
 bindsym $mod+Shift+less move workspace to output left
 
 # split in horizontal orientation
-bindsym $mod+o split h 
+bindsym $mod+o split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -161,7 +161,7 @@ mode "player" {
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
-    bindsym Escape mode "default" 
+    bindsym Escape mode "default"
 }
 
 bindsym $mod+p mode "player"
@@ -176,9 +176,9 @@ bar {
         background $background
         statusline $mwhite
 
-        focused_workspace  $mwhite $red 
+        focused_workspace  $mwhite $red
         active_workspace   $mwhite $blue
-        inactive_workspace #888888 $black 
+        inactive_workspace #888888 $black
         urgent_workspace   $mwhite $yellow $red
     }
 }
@@ -204,18 +204,27 @@ bindsym Shift+$mod+Ctrl+v exec killall oneko
 
 bindsym $mod+minus sticky toggle
 
+bindsym $mod+m exec dunstctl close
+bindsym $mod+Shift+m exec dunstctl close-all
+bindsym $mod+n exec dunstctl history-pop
+bindsym $mod+b exec dunstctl set-paused toggle && exec pkill -SIGRTMIN+12 i3blocks
+
 assign [class="^firefox"] $ws1
 assign [class="^Google-chrome"] $ws1
-assign [class="^Code$"] $ws2
+assign [class="^code-oss$"] $ws2
 assign [class="DBeaver"] $ws2
 assign [title="Dbeaver"] $ws2
 assign [class="^Mathematica$"] $ws2
 assign [class="^Sublime_text$"] $ws2
 assign [class="^NetBeans IDE 8.2$"] $ws2
+assign [class="Texmaker"] $ws2
 assign [class="^Thunar$"] $ws4
 for_window [class="Spotify"] move to workspace $ws5
 assign [class="discord"] $ws6
+assign [class="^whatsapp-nativefier"] $ws6
 assign [class="Mailspring"] $ws7
+assign [class="Slack"] $ws7
+assign [class="Zulip"] $ws7
 
 for_window [class="^.*"] border pixel 2
 floating_maximum_size -1 x -1
@@ -232,5 +241,6 @@ client.placeholder      #000000 #0c0c0c  #ffffff #000000   #0c0c0c
 #exec_always --no-startup-id feh --bg-fill --randomize ~/.wallpapers/*
 exec_always --no-startup-id feh --bg-fill ~/.wallpapers/Fox.jpg
 exec_always "xautolock -time 4 -locker '~/.local/bin/locker'"
+exec_always --no-startup-id "easyeffects --gapplication-service"
 exec --no-startup-id "ckb-next --background"
 exec --no-startup-id "ibus-daemon -drx --panel /usr/lib/ibus/ibus-ui-gtk3"

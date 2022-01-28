@@ -19,14 +19,13 @@
 
 # Use the provided interface, otherwise the device used for the default route.
 count=0
-[ -n "${BLOCK_INSTANCE}" ] && IF=$BLOCK_INSTANCE || IF=enp4s0
+[ -n "${BLOCK_INSTANCE}" ] && IF=$BLOCK_INSTANCE || IF=enp3s0
 
 	if [ $count -gt 30 ]; then
 	  	IF_NEW=$(ip route | awk '/^default/ { print $5 ; exit }')
 	   	count=0
 		if [ ! $IF_NEW ="" ]; then
 		IF=$IF_NEW
-	
 		fi
 	fi
 	count=$((count+1))
@@ -37,7 +36,7 @@ count=0
 	# connection (think desktop), the corresponding block should not be displayed.
 
 	#------------------------------------------------------------------------
-	if [ "$(cat /sys/class/net/${IF}/operstate)" = 'down' ]; then
+	if [ "$(cat /sys/class/net/${IF}/operstate 2> /dev/null)" = 'down' ]; then
 		echo ""
 	else
 		case $1 in

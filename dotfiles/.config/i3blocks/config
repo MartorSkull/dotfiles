@@ -30,10 +30,9 @@ label=
 interval=once
 signal=10
 
-
 [iface]
 interval=10
-instance=enp3s0
+instance=enp4s0
 separator=false
 markup=pango
 
@@ -76,11 +75,11 @@ markup=pango
 command=date "+%d-%m-%y"
 interval=10
 separator=false
-label= 
+label=
 
 [time]
 command=date "+%H:%M:%S"
-interval=1 
+interval=1
 label=
 
 [keyindicator]
@@ -88,7 +87,14 @@ interval=once
 instance=NUM
 signal=11
 
+[dunst]
+interval=once
+signal=12
+format=json
+markup=pango
+min_width=
+
 [shutdown_menu]
-full_text= 
-min_width= 
+full_text=
+min_width=
 command=$HOME/.config/i3blocks/blocks/shutdown_menu && echo ""

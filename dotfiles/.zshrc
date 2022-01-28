@@ -1,20 +1,19 @@
 # Oh-My-Zsh Configuration
-export ZSH=/usr/share/oh-my-zsh     # Path to your oh-my-zsh installation.
-ZSH_THEME="customagnoster"  # Set the theme
-CASE_SENSITIVE="false"      # Case-sensitive completition
-DISABLE_AUTO_UPDATE="true"  # Do not auto update (using aur)
-DISABLE_LS_COLORS="false"   # Colors for ls
-DISABLE_AUTO_TITLE="true"   # Set the terminal title automatically
-COMPLETION_WAITING_DOTS="false" # I don't like the dots
-HIST_STAMPS="dd/mm/yyyy"    # History timestamps
-ZSH_CUSTOM=~/.customzsh     # Set my custom zsh folder
-plugins=(git                # Which plugins to load
-	bgnotify)
-ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
-if [[ ! -d $ZSH_CACHE_DIR ]]; then
-  mkdir $ZSH_CACHE_DIR
-fi
-source $ZSH/oh-my-zsh.sh    # Source the oh-my-zsh file
+export ZSH=/usr/share/oh-my-zsh       # Path to your oh-my-zsh installation.
+ZSH_THEME="customagnoster"            # Set the theme
+CASE_SENSITIVE="false"                # Case-sensitive completition
+DISABLE_AUTO_UPDATE="true"            # Do not auto update (using aur)
+DISABLE_LS_COLORS="false"             # Colors for ls
+DISABLE_AUTO_TITLE="true"             # Set the terminal title automatically
+COMPLETION_WAITING_DOTS="false"       # I don't like the dots
+HIST_STAMPS="dd/mm/yyyy"              # History timestamps
+ZSH_CUSTOM=~/.customzsh               # Set my custom zsh folder
+plugins=(git                          # Which plugins to load
+	bgnotify
+    )
+ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh  # ZSH Cache for system-wide install
+[ ! -d $ZSH_CACHE_DIR ] && mkdir $ZSH_CACHE_DIR   # Create the cache folder
+source $ZSH/oh-my-zsh.sh              # Source the oh-my-zsh file
 
 # Zsh configuration
 
@@ -37,14 +36,9 @@ export ARCHFLAGS="-arch x86_64"             # Compilation flags
 export SSH_KEY_PATH="~/.ssh/rsa_id"         # SSH Key
 export DEFAULT_USER=$USER                   # Default User
 export VIRTUAL_ENV_DISABLE_PROMPT="true"    # Disable virtual env prompt
-export DEVKITPRO=~/.devkitPro               # Devkit variable
-export DEVKITARM=${DEVKITPRO}/devkitARM     # DevkitARM variable
 export GPG_TTY=$(tty)                       # Add gpg
-export ANDROID_HOME=~/Android/Sdk           # Android enviroment
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
+export EDITOR='vim'                         # Preferred editor
+[ -f "$HOME/.env" ] && source $HOME/.env
 
 # Set personal aliases
 alias ll='ls -AlF'
@@ -67,9 +61,6 @@ elif [ -f "/etc/redhat-release" ]; then
 else
     export DISTRO="$(uname -s) $(uname -r)"
 fi
-
-# Preferred editor 
-export EDITOR='vim'
 
 #zsh functions
 fpath=(
