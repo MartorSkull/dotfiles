@@ -49,14 +49,14 @@ font pango:DejaVu Sans 9
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec kitty
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start rofi (a program launcher)
 bindsym $mod+d exec --no-startup-id "rofi -show run"
-bindsym Mod1+Tab exec --no-startup-id "rofi -show window"
+bindsym $mod+Tab exec --no-startup-id "rofi -show window"
 
 
 # change focus within monitor
@@ -78,6 +78,10 @@ bindsym $mod+less focus output left
 # move focused window between monitors
 bindsym $mod+Shift+greater move workspace to output right
 bindsym $mod+Shift+less move workspace to output left
+bindsym $mod+Shift+Right move workspace to output right
+bindsym $mod+Shift+Left move workspace to output left
+bindsym $mod+Shift+Up move workspace to output up
+bindsym $mod+Shift+Down move workspace to output down
 
 # split in horizontal orientation
 bindsym $mod+o split h
@@ -134,7 +138,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you even exit bruh?' -b 'You wot' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you want to logout?' -b 'Yes' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -176,9 +180,9 @@ bar {
         background $background
         statusline $mwhite
 
-        focused_workspace  $mwhite $red
-        active_workspace   $mwhite $blue
-        inactive_workspace #888888 $black
+        focused_workspace  $blue $red $mwhite
+        active_workspace   $lblack $blue $mwhite
+        inactive_workspace $lblack $black #888888
         urgent_workspace   $mwhite $yellow $red
     }
 }
@@ -193,8 +197,11 @@ bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5 -time 100
 bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5 -time 100
 
 bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPause exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+
+bindsym XF86Display exec arandr
 
 bindsym $mod+Ctrl+l exec "~/.local/bin/locker"
 
@@ -222,6 +229,7 @@ assign [class="^Thunar$"] $ws4
 for_window [class="Spotify"] move to workspace $ws5
 assign [class="discord"] $ws6
 assign [class="^whatsapp-nativefier"] $ws6
+assign [class="^TelegramDesktop$"] $ws6
 assign [class="Mailspring"] $ws7
 assign [class="Slack"] $ws7
 assign [class="Zulip"] $ws7
@@ -235,12 +243,13 @@ floating_maximum_size -1 x -1
 client.focused          $lblack $red     $white  $lred     $red
 client.focused_inactive $lblack $lblack  $mwhite $lblack   $lblack
 client.unfocused        $black  $black   $mwhite $black    $black
-client.urgent           $yelow  $lyellow $white  $yellow   $yellow
+client.urgent           $yellow $lyellow $white  $yellow   $yellow
 client.placeholder      #000000 #0c0c0c  #ffffff #000000   #0c0c0c
 
 #exec_always --no-startup-id feh --bg-fill --randomize ~/.wallpapers/*
 exec_always --no-startup-id feh --bg-fill ~/.wallpapers/Fox.jpg
 exec_always "xautolock -time 4 -locker '~/.local/bin/locker'"
 exec_always --no-startup-id "easyeffects --gapplication-service"
+exec --no-startup-id "lxsession"
 exec --no-startup-id "ckb-next --background"
 exec --no-startup-id "ibus-daemon -drx --panel /usr/lib/ibus/ibus-ui-gtk3"

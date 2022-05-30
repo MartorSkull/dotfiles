@@ -20,7 +20,9 @@ fi
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cabal/bin:$HOME/.ghcup/bin:$PATH"
 export QSYS_ROOTDIR="/opt/intelFPGA/20.1/quartus/sopc_builder/bin"
+export TERMINAL="kitty"
 
 urxvtd &
 
 eval $(gpg-agent --daemon)
+eval $(ssh-agent)
