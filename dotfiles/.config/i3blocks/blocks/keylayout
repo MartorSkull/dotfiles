@@ -1,0 +1,2 @@
+xkblayout-state print "%s" | head -c2
+echo

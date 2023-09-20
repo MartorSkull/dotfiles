@@ -94,6 +94,12 @@ format=json
 markup=pango
 min_width=
 
+[keylayout]
+interval=once
+markup=pango
+min_width=us
+signal=13
+
 [shutdown_menu]
 full_text=
 min_width=

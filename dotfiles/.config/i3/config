@@ -216,8 +216,11 @@ bindsym $mod+Shift+m exec dunstctl close-all
 bindsym $mod+n exec dunstctl history-pop
 bindsym $mod+b exec dunstctl set-paused toggle && exec pkill -SIGRTMIN+12 i3blocks
 
+bindsym Mod1+space exec xkblayout-state set +1 && exec pkill -SIGRTMIN+13 i3blocks
+
 assign [class="^firefox"] $ws1
 assign [class="^Google-chrome"] $ws1
+assign [class="^Brave-browser"] $ws1
 assign [class="^code-oss$"] $ws2
 assign [class="DBeaver"] $ws2
 assign [title="Dbeaver"] $ws2
@@ -247,7 +250,7 @@ client.urgent           $yellow $lyellow $white  $yellow   $yellow
 client.placeholder      #000000 #0c0c0c  #ffffff #000000   #0c0c0c
 
 #exec_always --no-startup-id feh --bg-fill --randomize ~/.wallpapers/*
-exec_always --no-startup-id feh --bg-fill ~/.wallpapers/Fox.jpg
+exec_always --no-startup-id feh --bg-fill ~/.wallpapers/richard-wright-daze.jpg
 exec_always "xautolock -time 4 -locker '~/.local/bin/locker'"
 exec_always --no-startup-id "easyeffects --gapplication-service"
 exec --no-startup-id "lxsession"
