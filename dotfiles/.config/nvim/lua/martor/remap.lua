@@ -22,5 +22,11 @@ vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
-vim.keymap.set("n", "<leader>d", "*``cgn")
+vim.keymap.set("n", "<leader>R", "*``cgn")
 vim.keymap.set("n", "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
+vim.keymap.set("n", "<leader>n", "<cmd>bnext<cr>")
+vim.keymap.set("n", "<leader>p", "<cmd>bprevious<cr>")
+vim.keymap.set("n", "<leader>d", "<cmd>bdelete<cr>")
+
+vim.keymap.set("v", "<leader>f", "y/\\V<C-r>\"<cr>")

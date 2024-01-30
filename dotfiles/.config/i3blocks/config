@@ -26,23 +26,28 @@ markup=none
 interval=1
 
 [volume]
-label=
 interval=once
 signal=10
+##exposed format variables: ${SYMB}, ${VOL}, ${INDEX}, ${NAME}
+#LONG_FORMAT="${SYMB} ${VOL}% [${INDEX}:${NAME}]"
+#SHORT_FORMAT="${SYMB} ${VOL}% [${INDEX}]"
+AUDIO_MED_THRESH=75
+AUDIO_LOW_THRESH=25
+AUDIO_DELTA=2
+MUTED_COLOR="#333333"
+
+[wifi]
+interval=10
 
 [iface]
 interval=10
-instance=enp4s0
+instance=enp5s0
 separator=false
 markup=pango
 
 [iface]
 interval=10
-instance=br0
-markup=pango
-
-[iface]
-interval=10
+instance=enp6s0
 markup=pango
 
 [disk]

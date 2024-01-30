@@ -1,14 +1,15 @@
-local lsp = require('lsp-zero').preset({})
+local lsp_zero = require('lsp-zero')
 
-lsp.on_attach(function(client, bufnr)
-  -- see :help lsp-zero-keybindings
-  -- to learn the available actions
-  lsp.default_keymaps({buffer = bufnr})
-end)
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  ensure_installed = {'pylsp', 'rust_analyzer', 'clangd', 'omnisharp'},
+  handlers = {
+    lsp_zero.default_setup,
+  }
+})
 
-lsp.setup_servers({'pylsp', 'rust_analyzer'})
+require('cmp').setup({
+  formatting = lsp_zero.cmp_format(),
+})
 
--- (Optional) Configure lua language server for neovim
-require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
-
-lsp.setup()
+require("lspconfig").omnisharp.setup({})

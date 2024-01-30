@@ -1,3 +1,3 @@
 require("martor.set")
 require("martor.remap")
-require("martor.packer")
+require("martor.lazy")
