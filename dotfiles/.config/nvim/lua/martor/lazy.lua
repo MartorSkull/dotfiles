@@ -32,7 +32,6 @@ require('lazy').setup({
                 disable_background = true,
                 disable_float_background = true,
             })
-            vim.cmd('colorscheme rose-pine')
         end
     },
 
@@ -45,13 +44,18 @@ require('lazy').setup({
     'tpope/vim-fugitive',
     'numToStr/Comment.nvim',
 
-    {'williamboman/mason.nvim'},
-    {'williamboman/mason-lspconfig.nvim'},
+    'williamboman/mason.nvim',
+    'williamboman/mason-lspconfig.nvim',
 
     {'VonHeikemen/lsp-zero.nvim', branch = 'v3.x'},
-    {'neovim/nvim-lspconfig'},
-    {'hrsh7th/cmp-nvim-lsp'},
-    {'hrsh7th/nvim-cmp'},
-    {'L3MON4D3/LuaSnip'},
-
+    'neovim/nvim-lspconfig',
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/nvim-cmp',
+    'L3MON4D3/LuaSnip',
+    {
+        'tanvirtin/monokai.nvim',
+        config = function(plugin, opts)
+            require('monokai').setup({ italics = false })
+        end
+    }
 })

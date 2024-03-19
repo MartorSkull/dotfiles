@@ -58,7 +58,6 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec --no-startup-id "rofi -show run"
 bindsym $mod+Tab exec --no-startup-id "rofi -show window"
 
-
 # change focus within monitor
 bindsym $mod+h focus left
 bindsym $mod+j focus down
@@ -227,7 +226,9 @@ assign [title="Dbeaver"] $ws2
 assign [class="^Mathematica$"] $ws2
 assign [class="^Sublime_text$"] $ws2
 assign [class="^NetBeans IDE 8.2$"] $ws2
-assign [class="Texmaker"] $ws2
+assign [class="^Texmaker$"] $ws2
+assign [class="^steam$"] $ws2
+assign [class="^steam_app"] $ws2
 assign [class="^Thunar$"] $ws4
 for_window [class="Spotify"] move to workspace $ws5
 assign [class="discord"] $ws6

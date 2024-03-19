@@ -6,7 +6,7 @@ DISABLE_AUTO_UPDATE="true"            # Do not auto update (using aur)
 DISABLE_LS_COLORS="false"             # Colors for ls
 DISABLE_AUTO_TITLE="true"             # Set the terminal title automatically
 COMPLETION_WAITING_DOTS="false"       # I don't like the dots
-HIST_STAMPS="dd/mm/yyyy"              # History timestamps
+HIST_STAMPS="%d/%m/%y %T"             # History timestamps
 ZSH_CUSTOM=~/.customzsh               # Set my custom zsh folder
 plugins=(git                          # Which plugins to load
 	bgnotify
