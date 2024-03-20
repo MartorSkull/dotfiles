@@ -37,7 +37,7 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"         # SSH Key
 export DEFAULT_USER=$USER                   # Default User
 export VIRTUAL_ENV_DISABLE_PROMPT="true"    # Disable virtual env prompt
 export GPG_TTY=$(tty)                       # Add gpg
-export EDITOR='vim'                         # Preferred editor
+export EDITOR='nvim'                        # Preferred editor
 [ -f "$HOME/.env" ] && source $HOME/.env
 
 # Set personal aliases
@@ -69,7 +69,10 @@ fpath=(
     "${fpath[@]}"
 )
 
-#virtualenvwrapper
+# Virtual Enviroments
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 export WORKON_HOME=~/.virtualenvs
 if [[ $DISTRO =~ "^Arch" ]]; then
     if [ -e /usr/bin/virtualenvwrapper.sh ]; then
@@ -80,3 +83,4 @@ else
         source /usr/share/virtualenvwrapper/virtualenvwrapper.sh;
     fi
 fi
+

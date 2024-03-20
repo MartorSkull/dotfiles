@@ -11,6 +11,7 @@ vim.keymap.set("x", "p", "\"_dP")
 
 vim.keymap.set("n", "<leader>y", "\"+y")
 vim.keymap.set("v", "<leader>y", "\"+y")
+vim.keymap.set("v", "<leader>p", "\"+p")
 vim.keymap.set("n", "<leader>Y", "\"+Y")
 
 vim.keymap.set("i", "<C-c>", "<Esc>")
@@ -32,3 +33,5 @@ vim.keymap.set("n", "<leader>p", "<cmd>bprevious<cr>")
 vim.keymap.set("n", "<leader>d", "<cmd>bdelete<cr>")
 
 vim.keymap.set("v", "<leader>f", "y/\\V<C-r>\"<cr>")
+
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
