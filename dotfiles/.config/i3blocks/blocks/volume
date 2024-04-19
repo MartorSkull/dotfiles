@@ -18,8 +18,8 @@ AUDIO_DELTA=${AUDIO_DELTA:-5}
 DEFAULT_COLOR=${DEFAULT_COLOR:-"#ffffff"}
 MUTED_COLOR=${MUTED_COLOR:-"#a0a0a0"}
 
-LONG_FORMAT=${LONG_FORMAT:-'${SYMB} ${VOL}% [${INDEX}:${NAME}]'}
-SHORT_FORMAT=${SHORT_FORMAT:-'${SYMB} ${VOL}% [${INDEX}]'}
+LONG_FORMAT=${LONG_FORMAT:-'${SYMB} ${VOL}% [${NAME}]'}
+SHORT_FORMAT=${SHORT_FORMAT:-'${SYMB} ${VOL}% [${NAME}]'}
 USE_ALSA_NAME=${USE_ALSA_NAME:-0}
 USE_DESCRIPTION=${USE_DESCRIPTION:-0}
 
@@ -52,7 +52,7 @@ while getopts F:Sf:adH:M:L:X:T:t:C:c:i:m:s:h opt; do
         [-m mixer] [-s scontrol] [-h]
 Options:
 -F, -f\tOutput format (-F long format, -f short format) to use, with exposed variables:
-\${SYMB}, \${VOL}, \${INDEX}, \${NAME}
+\${SYMB}, \${VOL}, \${NAME}
 -S\tSubscribe to volume events (requires persistent block, always uses long format)
 -a\tUse ALSA name if possible
 -d\tUse device description instead of name if possible
@@ -96,14 +96,16 @@ function move_sinks_to_new_default {
 
 function set_default_playback_device_next {
     inc=${1:-1}
-    num_devices=$(pactl list sinks | grep -c Name:)
-    sink_arr=($(pactl list sinks | grep Name: | sed -r 's/\s+Name: (.+)/\1/'))
+    sink_arr=($(pactl list sinks | grep "Name: \|type: " | tr '\n' ' ' | sed -r 's/\s+Name: /\n/g' | grep "availability unknown\|, available" | awk NF=1 FS='\t'))
+    num_devices=${#sink_arr[@]}
     default_sink=$(pactl get-default-sink)
     default_sink_index=$(for i in "${!sink_arr[@]}"; do if [[ "$default_sink" = "${sink_arr[$i]}" ]]; then echo "$i"; fi done)
     default_sink_index=$(( ($default_sink_index + $num_devices + $inc) % $num_devices ))
     default_sink=${sink_arr[$default_sink_index]}
     pactl set-default-sink $default_sink
-    move_sinks_to_new_default $default_sink
+    if [[ $(pactl get-default-sink) == $default_sink ]] ; then
+        move_sinks_to_new_default $default_sink
+    fi
 }
 
 case "$BLOCK_BUTTON" in
@@ -115,15 +117,14 @@ case "$BLOCK_BUTTON" in
 esac
 
 function print_format {
-    echo "$1" | envsubst '${SYMB}${VOL}${INDEX}${NAME}'
+    echo "$1" | envsubst '${SYMB}${VOL}${NAME}'
 }
 
 function print_block {
-    ACTIVE=$(pactl list sinks  | grep "State\: RUNNING" -B4 -A55 | grep "Name:\|Volume: \(front-left\|mono\)\|Mute:\|api.alsa.pcm.card = \|node.nick = ")
-    for Name in NAME MUTED VOL INDEX NICK; do
+    ACTIVE=$(pactl list sinks  | grep "State: RUNNING" -B4 -A55 | grep "Name:\|Volume: \(front-left\|mono\)\|Mute:\|device\(.profile\)\?.description = ")
+    for Name in NAME MUTED VOL NICK; do
         read $Name
     done < <(echo "$ACTIVE")
-    INDEX=$(echo "$INDEX"  | grep -o '".*"' | sed 's/"//g')
     VOL=$(echo "$VOL" | grep -o "[0-9]*%" | head -1 )
     VOL="${VOL%?}"
     NAME=$(echo "$NICK" | grep -o '".*"' | sed 's/"//g')
