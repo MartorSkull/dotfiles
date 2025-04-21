@@ -2,7 +2,7 @@ local lsp_zero = require('lsp-zero')
 
 lsp_zero.on_attach(function(client, bufnr)
   if client.supports_method("textDocument/inlayHint") then
-    vim.lsp.inlay_hint.enable(bufnr, true)
+    vim.lsp.inlay_hint.enable(true)
   end
   lsp_zero.default_keymaps({buffer = bufnr})
 end)

@@ -18,7 +18,7 @@ require('lazy').setup({
   {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.3',
-    dependencies = { { 'nvim-lua/plenary.nvim' } }
+    dependencies = { { 'nvim-lua/plenary.nvim' } },
   },
 
   {
@@ -28,7 +28,6 @@ require('lazy').setup({
       require('rose-pine').setup({
         styles = {
           italic = false,
-
         },
         disable_background = true,
         disable_float_background = true,
@@ -59,5 +58,6 @@ require('lazy').setup({
   {
     'tanvirtin/monokai.nvim',
     opts = { italics = false },
-  }
+  },
+  'RRethy/vim-illuminate',
 })

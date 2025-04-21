@@ -9,7 +9,7 @@ COMPLETION_WAITING_DOTS="false"       # I don't like the dots
 HIST_STAMPS="%d/%m/%y %T"             # History timestamps
 ZSH_CUSTOM=~/.customzsh               # Set my custom zsh folder
 plugins=(git                          # Which plugins to load
-	bgnotify
+    bgnotify
     )
 ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh  # ZSH Cache for system-wide install
 [ ! -d $ZSH_CACHE_DIR ] && mkdir $ZSH_CACHE_DIR   # Create the cache folder
