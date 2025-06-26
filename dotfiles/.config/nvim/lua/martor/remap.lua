@@ -35,3 +35,7 @@ vim.keymap.set("n", "<leader>d", "<cmd>bdelete<cr>")
 vim.keymap.set("v", "<leader>f", "y/\\V<C-r>\"<cr>")
 
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
+
+vim.keymap.set("i", "<C-l>", function()
+  vim.fn.feedkeys(vim.fn['copilot#Accept'](), '')
+end, { desc = 'Copilot Accept', noremap = true, silent = true })
