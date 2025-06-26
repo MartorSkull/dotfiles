@@ -1,0 +1,261 @@
+#run i3-config-wizard(1).
+
+#color
+# special
+set $foreground #c5c8c6
+set $background #1d1f21
+# black
+set $black #2d2d2d
+set $lblack #333333
+# red
+set $red #d64937
+set $lred #d6695b
+# green
+set $green #37d645
+set $lgreen #5fd669
+# yellow
+set $yellow #d6b137
+set $lyellow #d6be6d
+# blue
+set $blue #3759d6
+set $lblue #637bd6
+# magenta
+set $magenta #6738d6
+set $lmagenta #9b82d6
+# cyan
+set $cyan #5e8d87
+set $lcian #8abeb7
+# white
+set $white #dedede
+set $mwhite #f9f9f9
+
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+    events disabled_on_external_mouse
+}
+
+#Workspaces
+set $ws1 1:
+set $ws2 2:
+set $ws3 3:
+set $ws4 4:
+set $ws5 5:
+set $ws6 6:
+set $ws7 7:
+set $ws8 8
+set $ws9 9
+set $ws10 10
+
+set $mod Mod4
+
+font pango:DejaVu Sans 9
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec kitty
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# start rofi (a program launcher)
+bindsym $mod+d exec --no-startup-id "rofi -show run"
+bindsym $mod+Tab exec --no-startup-id "rofi -show window"
+
+
+# change focus within monitor
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# move focused window within monitor
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# change focus between monitors
+bindsym $mod+greater focus output right
+bindsym $mod+less focus output left
+
+# move focused window between monitors
+bindsym $mod+Shift+greater move workspace to output right
+bindsym $mod+Shift+less move workspace to output left
+bindsym $mod+Shift+Right move workspace to output right
+bindsym $mod+Shift+Left move workspace to output left
+bindsym $mod+Shift+Up move workspace to output up
+bindsym $mod+Shift+Down move workspace to output down
+
+# split in horizontal orientation
+bindsym $mod+o split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+bindsym $mod+c focus child
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym Ctrl+$mod+1 workspace $ws6
+bindsym Ctrl+$mod+2 workspace $ws7
+bindsym Ctrl+$mod+3 workspace $ws8
+bindsym Ctrl+$mod+4 workspace $ws9
+bindsym Ctrl+$mod+5 workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym Ctrl+$mod+Shift+1 move container to workspace $ws6
+bindsym Ctrl+$mod+Shift+2 move container to workspace $ws7
+bindsym Ctrl+$mod+Shift+3 move container to workspace $ws8
+bindsym Ctrl+$mod+Shift+4 move container to workspace $ws9
+bindsym Ctrl+$mod+Shift+5 move container to workspace $ws10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# exit sway (logs you out of your X session)
+bindsym $mod+Shift+e exec "swaynag -t warning -m 'Do you want to logout?' -b 'Yes' 'swaymsg exit'"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+    # These bindings trigger as soon as you enter the resize mode
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
+#Workspaces
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# Player mode
+mode "player" {
+    # These bindings are for the player.
+    bindsym h exec "playerctl previous"
+    bindsym j exec "playerctl play-pause"
+    bindsym k exec "playerctl stop"
+    bindsym l exec "playerctl next"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+p mode "player"
+
+# Start swaybar to display a workspace bar
+bar {
+    font pango:FontAwesome, DejaVu Sans 8
+    status_command i3blocks
+    tray_output primary
+    colors {
+        background $background
+        statusline $mwhite
+
+        # focused_workspace  $mwhite $red
+        # active_workspace   $mwhite $blue
+        # inactive_workspace #888888 $black
+        # urgent_workspace   $mwhite $yellow $red
+        focused_workspace  $blue $red $mwhite
+        active_workspace   $lblack $blue $mwhite
+        inactive_workspace $lblack $black #888888
+        urgent_workspace   $mwhite $yellow $red
+    }
+}
+
+bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
+
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D default sset Master 2%- && exec pkill -SIGRTMIN+10 i3blocks
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D default sset Master 2%+ && exec pkill -SIGRTMIN+10 i3blocks
+bindsym XF86AudioMute exec --no-startup-id amixer -D default sset Master toggle && exec pkill -SIGRTMIN+10 i3blocks
+
+bindsym XF86MonBrightnessUp exec --no-startup-id light -A 5
+bindsym XF86MonBrightnessDown exec --no-startup-id light -U 5
+
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+bindsym XF86Display exec arandr
+
+bindsym $mod+Ctrl+l exec "~/.local/bin/locker"
+
+bindsym --release $mod+Shift+s exec "maim -s --format png | xclip -selection clipboard -t image/png -i"
+bindsym $mod+Shift+Ctrl+c exec oneko
+bindsym $mod+Shift+Ctrl+v exec killall oneko
+
+bindsym $mod+minus sticky toggle
+
+bindsym $mod+m exec dunstctl close
+bindsym $mod+Shift+m exec dunstctl close-all
+bindsym $mod+n exec dunstctl history-pop
+bindsym $mod+b exec dunstctl set-paused toggle && exec pkill -SIGRTMIN+12 i3blocks
+
+assign [class="^firefox"] $ws1
+assign [class="^Google-chrome"] $ws1
+assign [class="^code-oss$"] $ws2
+assign [class="DBeaver"] $ws2
+assign [title="Dbeaver"] $ws2
+assign [class="^Mathematica$"] $ws2
+assign [class="^Sublime_text$"] $ws2
+assign [class="^NetBeans IDE 8.2$"] $ws2
+assign [class="Texmaker"] $ws2
+assign [class="^Thunar$"] $ws4
+for_window [class="Spotify"] move to workspace $ws5
+assign [class="discord"] $ws6
+assign [class="^whatsapp-nativefier"] $ws6
+assign [class="^TelegramDesktop$"] $ws6
+assign [class="Mailspring"] $ws7
+assign [class="Slack"] $ws7
+assign [class="Zulip"] $ws7
+
+for_window [app_id="^.*"] border pixel 2
+for_window [class="^.*"] border pixel 2
+floating_maximum_size -1 x -1
+
+#gaps inner 5
+#gaps outer 0
+# class                 border  backgr.  text    indicator child_border
+client.focused          $lblack $red     $white  $lred     $red
+client.focused_inactive $lblack $lblack  $mwhite $lblack   $lblack
+client.unfocused        $black  $black   $mwhite $black    $black
+client.urgent           $yellow $lyellow $white  $yellow   $yellow
+client.placeholder      #000000 #0c0c0c  #ffffff #000000   #0c0c0c
+
+exec_always --no-startup-id swaymsg output \* bg ~/.wallpapers/richard-wright-daze.jpg fill
+exec_always --no-startup-id "easyeffects --gapplication-service"
+exec --no-startup-id "lxsession"
+# exec --no-startup-id "ckb-next --background"
+# exec --no-startup-id "ibus-daemon -drx --panel /usr/lib/ibus/ibus-ui-gtk3"

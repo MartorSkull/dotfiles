@@ -60,6 +60,7 @@ require('lazy').setup({
     opts = { italics = false },
   },
   'RRethy/vim-illuminate',
+  "vinceau/vim-ltsa-syntax",
   {
     'github/copilot.vim',
     lazy = false,
