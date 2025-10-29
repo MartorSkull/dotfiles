@@ -30,7 +30,7 @@ set_from_resource $white i3wm.color7 #dedede
 set_from_resource $mwhite i3wm.color15 #f9f9f9
 
 #Workspaces
-set $ws1 1:
+set $ws1 1:
 set $ws2 2:
 set $ws3 3:
 set $ws4 4:
@@ -188,9 +188,9 @@ bar {
 
 bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D default sset Master 2%- && exec pkill -SIGRTMIN+10 i3blocks
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D default sset Master 2%+ && exec pkill -SIGRTMIN+10 i3blocks
-bindsym XF86AudioMute exec --no-startup-id amixer -D default sset Master toggle && exec pkill -SIGRTMIN+10 i3blocks
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -2%
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +2%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
 
 bindsym XF86MonBrightnessUp exec --no-startup-id light -A 5
 bindsym XF86MonBrightnessDown exec --no-startup-id light -U 5
@@ -254,7 +254,8 @@ client.placeholder      #000000 #0c0c0c  #ffffff #000000   #0c0c0c
 #exec_always --no-startup-id feh --bg-fill --randomize ~/.wallpapers/*
 exec_always --no-startup-id feh --bg-fill ~/.wallpapers/richard-wright-daze.jpg
 exec_always "xautolock -time 4 -locker '~/.local/bin/locker'"
-# exec_always --no-startup-id "easyeffects --gapplication-service"
+exec_always --no-startup-id "easyeffects --gapplication-service"
 exec --no-startup-id "lxsession"
 exec --no-startup-id "ckb-next --background"
+exec --no-startup-id "pactl subscribe | grep --line-buffered 'sink' | while read -r line; do pkill -SIGRTMIN+10 i3blocks; done &"
 # exec --no-startup-id "ibus-daemon -drx --panel /usr/lib/ibus/ibus-ui-gtk3"

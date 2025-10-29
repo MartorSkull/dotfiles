@@ -1,7 +1,10 @@
 #!/bin/zsh
+mkdir ~/.config
 mkdir ~/.local
 mkdir ~/.local/bin
+mkdir ~/.local/share
 setopt extendedglob nomatch
-ln -fs ~/.dotfiles/dotfiles/.config/** ~/.config/
-ln -fs ~/.dotfiles/dotfiles/.local/bin/* ~/.local/bin/
-ln -fs ~/.dotfiles/dotfiles/.*~*.config*~*.local* ~/
+ln -fs $(pwd)/dotfiles/.config/** ~/.config/
+ln -fs $(pwd)/dotfiles/.local/bin/* ~/.local/bin/
+ln -fs $(pwd)/dotfiles/.local/share/* ~/.local/share/
+ln -fs $(pwd)/dotfiles/.*~*.config*~*.local* ~/
