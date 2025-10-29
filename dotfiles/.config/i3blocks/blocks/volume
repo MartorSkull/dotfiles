@@ -77,20 +77,6 @@ LOG: if set to any value, will log debug info to stderr.
     esac
 done
 
-if [[ -z "$MIXER" ]] ; then
-    MIXER="default"
-    if amixer -D pulse info >/dev/null 2>&1 ; then
-        MIXER="pulse"
-    fi
-fi
-
-if [[ -z "$SCONTROL" ]] ; then
-    SCONTROL=$(amixer -D "$MIXER" scontrols | sed -n "s/Simple mixer control '\([^']*\)',0/\1/p" | head -n1)
-fi
-
-CAPABILITY=$(amixer -D $MIXER get $SCONTROL | sed -n "s/  Capabilities:.*cvolume.*/Capture/p")
-
-
 function move_sinks_to_new_default {
     DEFAULT_SINK=$1
     pactl list sink-inputs | grep 'Sink Input #' | grep -o '[0-9]\+' | while read SINK
@@ -133,10 +119,10 @@ function read_active_output {
 
 case "$BLOCK_BUTTON" in
     1) set_default_playback_device_next ;;
-    2) amixer -q -D $MIXER sset $SCONTROL $CAPABILITY toggle ;;
+    2) pactl set-sink-mute 0 toggle ;;
     3) set_default_playback_device_next -1 ;;
-    4) amixer -q -D $MIXER sset $SCONTROL $CAPABILITY $AUDIO_DELTA%+ ;;
-    5) amixer -q -D $MIXER sset $SCONTROL $CAPABILITY $AUDIO_DELTA%- ;;
+    4) pactl set-sink-volume 0 +$AUDIO_DELTA% ;;
+    5) pactl set-sink-volume 0 -$AUDIO_DELTA% ;;
 esac
 
 function print_format {
