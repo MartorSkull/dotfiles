@@ -3,6 +3,8 @@
 
 set -a
 
+IGNORED_SINKS=${IGNORED_SINKS:-"easyeffects_sink"}
+
 AUDIO_HIGH_SYMBOL=${AUDIO_HIGH_SYMBOL:-'  '}
 
 AUDIO_MED_THRESH=${AUDIO_MED_THRESH:-50}
@@ -18,23 +20,21 @@ AUDIO_DELTA=${AUDIO_DELTA:-5}
 DEFAULT_COLOR=${DEFAULT_COLOR:-"#ffffff"}
 MUTED_COLOR=${MUTED_COLOR:-"#a0a0a0"}
 
-LONG_FORMAT=${LONG_FORMAT:-'${SYMB} ${VOL}% [${NAME}]'}
-SHORT_FORMAT=${SHORT_FORMAT:-'${SYMB} ${VOL}% [${NAME}]'}
-USE_ALSA_NAME=${USE_ALSA_NAME:-0}
-USE_DESCRIPTION=${USE_DESCRIPTION:-0}
+LONG_FORMAT=${LONG_FORMAT:-'${SYMB} ${VOL}% [${DISPLAY_NAME}]'}
+SHORT_FORMAT=${SHORT_FORMAT:-'${SYMB} ${VOL}% [${DISPLAY_NAME}]'}
+
+NAME_PRIORITY=${NAME_PRIORITY:-"DEVICE_DESCRIPTION" "DEVICE_PROFILE_DESCRIPTION" "ALSA_MIXER" "ALSA_NAME" "DESCRIPTION" "NAME"}
 
 SUBSCRIBE=${SUBSCRIBE:-0}
 
 MIXER=${MIXER:-""}
 SCONTROL=${SCONTROL:-""}
 
-while getopts F:Sf:adH:M:L:X:T:t:C:c:i:m:s:h opt; do
+while getopts F:Sf:H:M:L:X:T:t:C:c:i:m:s:h opt; do
     case "$opt" in
         S) SUBSCRIBE=1 ;;
         F) LONG_FORMAT="$OPTARG" ;;
         f) SHORT_FORMAT="$OPTARG" ;;
-        a) USE_ALSA_NAME=1 ;;
-        d) USE_DESCRIPTION=1 ;;
         H) AUDIO_HIGH_SYMBOL="$OPTARG" ;;
         M) AUDIO_MED_SYMBOL="$OPTARG" ;;
         L) AUDIO_LOW_SYMBOL="$OPTARG" ;;
@@ -52,10 +52,8 @@ while getopts F:Sf:adH:M:L:X:T:t:C:c:i:m:s:h opt; do
         [-m mixer] [-s scontrol] [-h]
 Options:
 -F, -f\tOutput format (-F long format, -f short format) to use, with exposed variables:
-\${SYMB}, \${VOL}, \${NAME}
+\${SYMB}, \${VOL}, \${DISPLAY_NAME}
 -S\tSubscribe to volume events (requires persistent block, always uses long format)
--a\tUse ALSA name if possible
--d\tUse device description instead of name if possible
 -H\tSymbol to use when audio level is high. Default: '$AUDIO_HIGH_SYMBOL'
 -M\tSymbol to use when audio level is medium. Default: '$AUDIO_MED_SYMBOL'
 -L\tSymbol to use when audio level is low. Default: '$AUDIO_LOW_SYMBOL'
@@ -68,6 +66,13 @@ Options:
 -m\tUse the given mixer.
 -s\tUse the given scontrol.
 -h\tShow this help text
+
+Environment variables:
+IGNORED_SINKS: specify a space-separated list of sink names to ignore.
+    default: '$IGNORED_SINKS'
+NAME_PRIORITY: specify a space-separated list of variable names to use for display name, in order of priority.
+    default: '$NAME_PRIORITY'
+LOG: if set to any value, will log debug info to stderr.
 " && exit 0;;
     esac
 done
@@ -108,6 +113,24 @@ function set_default_playback_device_next {
     fi
 }
 
+function read_active_output {
+    NAME=$(echo "$1" | grep "Name:" | sed 's/[[:space:]]*Name:[[:space:]]*//g')
+
+    VOL=$(echo "$1" | grep -o "[0-9]*%" | head -1 )
+    VOL="${VOL%?}"
+
+    MUTED=$(echo "$1" | grep "Mute:" | sed 's/[[:space:]]*Mute:[[:space:]]*//g')
+
+    DESCRIPTION=$(echo "$1" | grep "Description:" | sed 's/^.*: //')
+
+    ALSA_NAME=$(echo "$1" | grep "alsa.name" | sed 's/.*= "\(.*\)".*/\1/')
+    ALSA_MIXER=$(echo "$1" | grep "alsa.mixer_name" | sed 's/.*= "\(.*\)".*/\1/')
+
+    DEVICE_DESCRIPTION=$(echo "$1" | grep "device.description" | sed 's/.*= "\(.*\)".*/\1/')
+    DEVICE_PROFILE_DESCRIPTION=$(echo "$1" | grep "device.profile.description" | sed 's/.*= "\(.*\)".*/\1/')
+
+}
+
 case "$BLOCK_BUTTON" in
     1) set_default_playback_device_next ;;
     2) amixer -q -D $MIXER sset $SCONTROL $CAPABILITY toggle ;;
@@ -117,28 +140,30 @@ case "$BLOCK_BUTTON" in
 esac
 
 function print_format {
-    echo "$1" | envsubst '${SYMB}${VOL}${NAME}'
+    echo "$1" | envsubst '${SYMB}${VOL}${DISPLAY_NAME}'
 }
 
 function print_block {
-    ACTIVE=$(pactl list sinks  | grep "State: RUNNING" -B4 -A55 | grep "Name:\|Volume: \(front-left\|mono\)\|Mute:\|device\(.profile\)\?.description = ")
-    for Name in NAME MUTED VOL NICK; do
-        read $Name
-    done < <(echo "$ACTIVE")
-    VOL=$(echo "$VOL" | grep -o "[0-9]*%" | head -1 )
-    VOL="${VOL%?}"
-    NAME=$(echo "$NICK" | grep -o '".*"' | sed 's/"//g')
+    ACTIVE=$(pactl list sinks)
+    while
+        BLOCK=$(echo "$ACTIVE" | awk '/Sink /{count++; if(count==2) exit} {print}')
+        ACTIVE=$(echo "$ACTIVE" | tail -n +$(($(echo "$BLOCK" | wc -l)+1)))
+        if [[ -n $(echo "$BLOCK" | grep "State: RUNNING") ]]; then
+            read_active_output "$BLOCK"
+        fi
+        [[ -n $BLOCK ]] && ([[ -z $NAME ]] || [[ " ${IGNORED_SINKS[@]} " =~ " $NAME " ]])
+    do true; done
 
-    if [[ $USE_ALSA_NAME == 1 ]] ; then
-        ALSA_NAME=$(pactl list sinks |\
-awk '/^\s*\*/{f=1}/^\s*index:/{f=0}f' |\
-grep "alsa.name\|alsa.mixer_name" |\
-head -n1 |\
-sed 's/.*= "\(.*\)".*/\1/')
-        NAME=${ALSA_NAME:-$NAME}
-    elif [[ $USE_DESCRIPTION == 1 ]] ; then
-        DESCRIPTION=$(pactl list sinks  | grep "State\: RUNNING" -B4 -A55 | grep 'Description: ' | sed 's/^.*: //')
-        NAME=${DESCRIPTION:-$NAME}
+    if [[ -n "$LOG" ]]; then
+        echo NAME=$NAME 1>&2
+        echo VOL=$VOL 1>&2
+        echo MUTED=$MUTED 1>&2
+        echo DESCRIPTION=$DESCRIPTION 1>&2
+        echo ALSA_NAME=$ALSA_NAME 1>&2
+        echo ALSA_MIXER=$ALSA_MIXER 1>&2
+        echo DEVICE_DESCRIPTION=$DEVICE_DESCRIPTION 1>&2
+        echo DEVICE_PROFILE_DESCRIPTION=$DEVICE_PROFILE_DESCRIPTION 1>&2
+        echo "" 1>&2
     fi
 
     if [[ $MUTED =~ "no" ]] ; then
@@ -151,7 +176,14 @@ sed 's/.*= "\(.*\)".*/\1/')
         COLOR=$MUTED_COLOR
     fi
 
-    if [[ $ACTIVE = "" ]] ; then
+    for KEY in ${NAME_PRIORITY[@]} ; do
+        DISPLAY_NAME=${!KEY}
+        if [[ -n $DISPLAY_NAME ]] ; then
+            break
+        fi
+    done
+
+    if [[ $BLOCK = "" ]] ; then
         echo "Sound inactive"
         COLOR='#222225'
     fi

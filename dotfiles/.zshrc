@@ -21,8 +21,8 @@ source $ZSH/oh-my-zsh.sh              # Source the oh-my-zsh file
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
-setopt extendedglob nomatch
-unsetopt appendhistory autocd beep notify
+setopt appendhistory extendedglob nomatch histignorespace sharehistory
+unsetopt autocd beep notify
 bindkey -e
 
 # The following lines were added by compinstall
