@@ -1,12 +1,15 @@
+zsh
 oh-my-zsh-git
 rxvt-unicode
+kitty
 
 papirus-folders-git
 papirus-icon-theme
 betterlockscreen
 numix-gtk-theme
+i3
+sway
 i3blocks
-i3-gaps
 dunst
 maim
 rofi
@@ -21,3 +24,12 @@ bsd-games
 powerline-console-fonts
 powerline-fonts
 powerline-patched-fonts
+ttf-font-awesome-4
+
+xdg-desktop-portal
+xdg-desktop-portal-gtk
+xdg-desktop-portal-wlr
+
+pipewire
+pipewire-pulse
+wireplumber

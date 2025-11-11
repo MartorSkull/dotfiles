@@ -4,4 +4,4 @@ configuration {
     matching:           "regex";
 }
 
-@theme "/home/martor/.config/rofi/themes/numix.rasi"
+@theme "./themes/numix.rasi"

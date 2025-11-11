@@ -1,2 +1,11 @@
-xkblayout-state print "%s" | head -c2
-echo
+#!/bin/bash
+
+if [[ ${XDG_SESSION_TYPE} =~ 'x11' ]]; then
+    xkblayout-state print "%s" | head -c2
+    echo
+elif [[ ${XDG_SESSION_TYPE} =~ 'wayland' ]]; then
+    LAYOUTS=($(localectl status | grep Layout | sed 's/.*: //' | sed 's/,/ /g'))
+    INDEX=$(swaymsg -t get_inputs | jq 'map(select(has("xkb_active_layout_index")))[0].xkb_active_layout_index')
+    echo ${LAYOUTS[$INDEX]} | head -c2
+    echo
+fi

@@ -39,13 +39,20 @@ BORDER_COLOR="${BORDER_COLOR:-#222222}"
 # Options not related to colors
 ROFI_TEXT="${ROFI_TEXT:-Menu:}"
 ROFI_OPTIONS=(${ROFI_OPTIONS:--theme-str 'configuration {hover-select: true;} 
-  window {y-offset: -18px; width: 11%; border: 2px; border-color: @highlight;} 
+  window {location: southeast; y-offset: 0px; width: 11%; border: 2px; border-color: @highlight;} 
   listview {lines: 8; scrollbar: false;}' -location 5})
 
 # Zenity options
 ZENITY_TITLE="${ZENITY_TITLE:-Menu}"
 ZENITY_TEXT="${ZENITY_TEXT:-Action:}"
 ZENITY_OPTIONS=(${ZENITY_OPTIONS:---column= --hide-header})
+
+# i3 or sway msg command
+if [[ $XDG_CURRENT_DESKTOP == *"sway"* ]]; then
+  MSG_COMMAND="swaymsg"
+elif [[ $XDG_CURRENT_DESKTOP == *"i3"* ]]; then
+  MSG_COMMAND="i3-msg"
+fi
 
 #######################################################################
 #                             END CONFIG                              #
@@ -120,7 +127,7 @@ menu=(
   [Suspend]="systemctl suspend"
   [Halt]="systemctl halt"
   [Lock]="${LOCKSCRIPT:-i3lock --color=${BG_COLOR#"#"}}"
-  [Logout]="i3-msg exit"
+  [Logout]="$MSG_COMMAND exit"
   [Cancel]=""
 )
 menu_nrows=${#menu[@]}
@@ -170,7 +177,7 @@ function ask_confirmation() {
   fi
 
   if [ "${confirmed}" == 0 ]; then
-    i3-msg -q "exec ${menu[${selection}]}"
+    $MSG_COMMAND -msg -q "exec ${menu[${selection}]}"
   fi
 }
 
@@ -179,6 +186,6 @@ if [[ $? -eq 0 && ! -z ${selection} ]]; then
         ${menu_confirm} =~ (^|[[:space:]])"${selection}"($|[[:space:]]) ]]; then
     ask_confirmation
   else
-    i3-msg -q "exec ${menu[${selection}]}"
+    $MSG_COMMAND -q "exec ${menu[${selection}]}"
   fi
 fi

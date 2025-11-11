@@ -8,7 +8,7 @@
     #geometry = "400x10-0-18"        # The geometry of the message window.
     width = 400
     origin = bottom-right
-    offset = 0x16
+    offset = 0x0
     #notification_height = 0         # The height of the entire notification.
     horizontal_padding = 6          # Horizontal padding.
     frame_width = 2                 # Width of the frame.

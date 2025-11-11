@@ -29,14 +29,8 @@ set $lcian #8abeb7
 set $white #dedede
 set $mwhite #f9f9f9
 
-input type:touchpad {
-    tap enabled
-    natural_scroll enabled
-    events disabled_on_external_mouse
-}
-
 #Workspaces
-set $ws1 1:
+set $ws1 1:
 set $ws2 2:
 set $ws3 3:
 set $ws4 4:
@@ -51,6 +45,40 @@ set $mod Mod4
 
 font pango:DejaVu Sans 9
 
+# Monitor configuration
+set $primary DP-3
+set $secondary DP-2
+
+output $primary {
+    pos 0 360
+    bg ~/.wallpapers/richard-wright-daze.jpg fill
+    mode 1920x1080@239.964Hz
+}
+
+output $secondary {
+    pos 1920 0
+    transform 90
+    bg ~/.wallpapers/richard-wright-daze.jpg fill
+    mode 1920x1080@165.003Hz
+}
+
+input "type:keyboard" {
+    xkb_layout "us,latam,cz"
+    xkb_model "pc105"
+    xkb_variant ",,qwerty"
+    xkb_options grp:alt_space_toggle
+}
+
+input "type:pointer" {
+    accel_profile "flat"
+    pointer_accel 0.0
+}
+
+input "type:tablet_tool" {
+    map_to_output $primary
+    left_handed enabled
+}
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -62,8 +90,9 @@ bindsym $mod+Shift+q kill
 
 # start rofi (a program launcher)
 bindsym $mod+d exec --no-startup-id "rofi -show run"
+bindsym $mod+Shift+d exec --no-startup-id "wofi --show run"
 bindsym $mod+Tab exec --no-startup-id "rofi -show window"
-
+bindsym $mod+Shift+Tab exec --no-startup-id "wofi --show window"
 
 # change focus within monitor
 bindsym $mod+h focus left
@@ -78,12 +107,12 @@ bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
 # change focus between monitors
-bindsym $mod+greater focus output right
-bindsym $mod+less focus output left
+bindsym $mod+Period focus output right
+bindsym $mod+Comma focus output left
 
 # move focused window between monitors
-bindsym $mod+Shift+greater move workspace to output right
-bindsym $mod+Shift+less move workspace to output left
+bindsym $mod+Shift+Period move workspace to output right
+bindsym $mod+Shift+Comma move workspace to output left
 bindsym $mod+Shift+Right move workspace to output right
 bindsym $mod+Shift+Left move workspace to output left
 bindsym $mod+Shift+Up move workspace to output up
@@ -141,8 +170,10 @@ bindsym Ctrl+$mod+Shift+5 move container to workspace $ws10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
-# exit sway (logs you out of your X session)
-bindsym $mod+Shift+e exec "swaynag -t warning -m 'Do you want to logout?' -b 'Yes' 'swaymsg exit'"
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "swaynag -t warning -m 'Do you want to logout?' -b 'Yes' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -174,19 +205,16 @@ mode "player" {
 
 bindsym $mod+p mode "player"
 
-# Start swaybar to display a workspace bar
+# Start swaybar to display a workspace bar (plus the system information i3status
+# finds out, if available)
 bar {
     font pango:FontAwesome, DejaVu Sans 8
     status_command i3blocks
-    tray_output primary
+    tray_output $primary
     colors {
         background $background
         statusline $mwhite
 
-        # focused_workspace  $mwhite $red
-        # active_workspace   $mwhite $blue
-        # inactive_workspace #888888 $black
-        # urgent_workspace   $mwhite $yellow $red
         focused_workspace  $blue $red $mwhite
         active_workspace   $lblack $blue $mwhite
         inactive_workspace $lblack $black #888888
@@ -194,11 +222,11 @@ bar {
     }
 }
 
-bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
+bindsym --release Num_Lock exec pkill -SIGRTMIN+11 i3blocks
 
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D default sset Master 2%- && exec pkill -SIGRTMIN+10 i3blocks
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D default sset Master 2%+ && exec pkill -SIGRTMIN+10 i3blocks
-bindsym XF86AudioMute exec --no-startup-id amixer -D default sset Master toggle && exec pkill -SIGRTMIN+10 i3blocks
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -2%
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +2%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
 
 bindsym XF86MonBrightnessUp exec --no-startup-id light -A 5
 bindsym XF86MonBrightnessDown exec --no-startup-id light -U 5
@@ -223,25 +251,25 @@ bindsym $mod+Shift+m exec dunstctl close-all
 bindsym $mod+n exec dunstctl history-pop
 bindsym $mod+b exec dunstctl set-paused toggle && exec pkill -SIGRTMIN+12 i3blocks
 
-assign [class="^firefox"] $ws1
-assign [class="^Google-chrome"] $ws1
-assign [class="^code-oss$"] $ws2
-assign [class="DBeaver"] $ws2
-assign [title="Dbeaver"] $ws2
-assign [class="^Mathematica$"] $ws2
-assign [class="^Sublime_text$"] $ws2
-assign [class="^NetBeans IDE 8.2$"] $ws2
-assign [class="Texmaker"] $ws2
-assign [class="^Thunar$"] $ws4
-for_window [class="Spotify"] move to workspace $ws5
-assign [class="discord"] $ws6
-assign [class="^whatsapp-nativefier"] $ws6
-assign [class="^TelegramDesktop$"] $ws6
-assign [class="Mailspring"] $ws7
-assign [class="Slack"] $ws7
-assign [class="Zulip"] $ws7
+bindsym Mod1+space exec pkill -SIGRTMIN+13 i3blocks
 
-for_window [app_id="^.*"] border pixel 2
+assign [class="^firefox"] $ws1
+assign [app_id="^firefox"] $ws1
+assign [class="^chromium$"] $ws1
+assign [app_id="^chromium$"] $ws1
+assign [class="^code-oss$"] $ws2
+assign [class="^Code$"] $ws2
+assign [class="^Sublime_text$"] $ws2
+assign [app_id="^sublime_text$"] $ws2
+assign [class="^Texmaker$"] $ws2
+assign [class="^steam$"] $ws2
+assign [class="^steam_app"] $ws2
+assign [class="^Thunar$"] $ws4
+assign [class="Spotify"] $ws5
+assign [class="discord"] $ws6
+assign [class="Thunderbird"] $ws7
+assign [app_id="Thunderbird"] $ws7
+
 for_window [class="^.*"] border pixel 2
 floating_maximum_size -1 x -1
 
@@ -254,8 +282,11 @@ client.unfocused        $black  $black   $mwhite $black    $black
 client.urgent           $yellow $lyellow $white  $yellow   $yellow
 client.placeholder      #000000 #0c0c0c  #ffffff #000000   #0c0c0c
 
-exec_always --no-startup-id swaymsg output \* bg ~/.wallpapers/richard-wright-daze.jpg fill
+# exec_always --no-startup-id feh --bg-fill --randomize ~/.wallpapers/*
+# exec_always --no-startup-id feh --bg-fill ~/.wallpapers/richard-wright-daze.jpg
 exec_always --no-startup-id "easyeffects --gapplication-service"
 exec --no-startup-id "lxsession"
-# exec --no-startup-id "ckb-next --background"
+exec --no-startup-id "pactl subscribe | grep --line-buffered 'sink' | while read -r line; do pkill -SIGRTMIN+10 i3blocks; done &"
 # exec --no-startup-id "ibus-daemon -drx --panel /usr/lib/ibus/ibus-ui-gtk3"
+
+include /etc/sway/config.d/*

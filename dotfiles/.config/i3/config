@@ -222,22 +222,14 @@ assign [class="^Google-chrome"] $ws1
 assign [class="^Brave-browser"] $ws1
 assign [class="^code-oss$"] $ws2
 assign [class="^Code$"] $ws2
-# assign [class="DBeaver"] $ws2
-assign [class="^Mathematica$"] $ws2
 assign [class="^Sublime_text$"] $ws2
-assign [class="^NetBeans IDE 8.2$"] $ws2
 assign [class="^Texmaker$"] $ws2
 assign [class="^steam$"] $ws2
 assign [class="^steam_app"] $ws2
 assign [class="^Thunar$"] $ws4
-for_window [class="Spotify"] move to workspace $ws5
+assign [class="Spotify"] $ws5
 assign [class="discord"] $ws6
-assign [class="^whatsapp-nativefier"] $ws6
-assign [class="^TelegramDesktop$"] $ws6
-assign [class="Mailspring"] $ws7
-assign [class="Slack"] $ws7
-assign [class="Zulip"] $ws7
-assign [class="^thunderbird$"] $ws7
+assign [class="Thunderbird"] $ws7
 
 for_window [class="^.*"] border pixel 2
 floating_maximum_size -1 x -1

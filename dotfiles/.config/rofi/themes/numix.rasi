@@ -34,7 +34,8 @@ window {
     background-color: @background;
     border:           0;
     padding:          0;
-    y-offset:         -200;
+    location:         north;
+    y-offset:         30%;
 }
 mainbox {
     border:  0;
