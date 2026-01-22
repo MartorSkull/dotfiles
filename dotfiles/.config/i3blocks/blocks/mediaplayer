@@ -18,118 +18,133 @@
 # Requires playerctl binary to be in your path (except cmus)
 # See: https://github.com/acrisci/playerctl
 
-# Set instance=NAME in the i3blocks configuration to specify a music player
-# (playerctl will attempt to connect to org.mpris.MediaPlayer2.[NAME] on your
-# DBus session).
-
 use Time::HiRes qw(usleep);
-use Env qw(BLOCK_INSTANCE);
-
-use constant DELAY => 50; # Delay in ms to let network-based players (spotify) reflect new data.
-use constant SPOTIFY_STR => 'spotify';
+use Env qw();
 
 my @metadata = ();
-my $player_arg = "";
+my $player = "";
+my $cache_file = $ENV{MEDIAPLAYER_CACHE_FILE}
+              // "/tmp/mediainfo_" . $ENV{USER};
 
-if ($BLOCK_INSTANCE) {
-    $player_arg = "--player='$BLOCK_INSTANCE'";
+sub default_player {
+    my $players = qx(playerctl -l 2> /dev/null);
+    chomp $players;
+    my @player_list = split("\n", $players);
+
+    if (scalar @player_list > 1) {
+        return $player_list[0];
+    }
+}
+
+sub read_cached_player {
+    open(my $fh, '<', $cache_file) or return "";
+    my $cached_player = <$fh>;
+    close $fh;
+    chomp $cached_player;
+    return $cached_player;
+}
+
+sub get_player_list {
+    my $players = qx(playerctl -l 2> /dev/null);
+    chomp $players;
+    my @player_list = split("\n", $players);
+    return @player_list;
+}
+
+sub get_player {
+    if ($player) {
+        return $player;
+    }
+
+    my $cached_player = read_cached_player();
+    if ($cached_player and grep { $_ eq $cached_player } get_player_list()) {
+        $player = $cached_player;
+        return $cached_player;
+    }
+
+    my $default_player = default_player();
+    $player = $default_player;
+    return $default_player;
+}
+
+sub set_player {
+    my ($a1) = @_;
+    open(my $fh, '>', $cache_file)
+        or die "Could not open file '$cache_file' $!";
+    print $fh $a1;
+    close $fh;
+    $player = $a1;
+}
+
+sub select_next_player {
+    my @player_list = get_player_list();
+    my $player = get_player();
+
+    for (my $i = 0; $i < scalar @player_list; $i++) {
+        if ($player_list[$i] eq $player) {
+            my $next_index = ($i + 1) % scalar @player_list;
+            set_player($player_list[$next_index]);
+            return;
+        }
+    }
+}
+
+sub select_prev_player {
+    my @player_list = get_player_list();
+    my $cached_player = get_player();
+
+    for (my $i = 0; $i < scalar @player_list; $i++) {
+        if ($player_list[$i] eq $cached_player) {
+            my $prev_index = ($i - 1 + scalar @player_list) % scalar @player_list;
+            set_player($player_list[$prev_index]);
+            return;
+        }
+    }
 }
 
 sub buttons {
-    my $method = shift;
-
-    if($method eq 'mpd') {
-        if ($ENV{'BLOCK_BUTTON'} == 1) {
-            system("mpc prev");
-        } elsif ($ENV{'BLOCK_BUTTON'} == 2) {
-            system("mpc toggle");
-        } elsif ($ENV{'BLOCK_BUTTON'} == 3) {
-            system("mpc next");
-        } elsif ($ENV{'BLOCK_BUTTON'} == 4) {
-            system("mpc volume +10");
-        } elsif ($ENV{'BLOCK_BUTTON'} == 5) {
-            system("mpc volume -10");
-        }
-    } elsif ($method eq 'cmus') {
-        if ($ENV{'BLOCK_BUTTON'} == 1) {
-            system("cmus-remote --prev");
-        } elsif ($ENV{'BLOCK_BUTTON'} == 2) {
-            system("cmus-remote --pause");
-        } elsif ($ENV{'BLOCK_BUTTON'} == 3) {
-            system("cmus-remote --next");
-        }
-    } elsif ($method eq 'playerctl') {
-        if ($ENV{'BLOCK_BUTTON'} == 1) {
-            system("playerctl $player_arg previous");
-            usleep(DELAY * 1000) if $BLOCK_INSTANCE eq SPOTIFY_STR;
-        } elsif ($ENV{'BLOCK_BUTTON'} == 2) {
-            system("playerctl $player_arg play-pause");
-        } elsif ($ENV{'BLOCK_BUTTON'} == 3) {
-            system("playerctl $player_arg next");
-            usleep(DELAY * 1000) if $BLOCK_INSTANCE eq SPOTIFY_STR;
-        } elsif ($ENV{'BLOCK_BUTTON'} == 4) {
-            system("playerctl $player_arg volume 0.01+");
-        } elsif ($ENV{'BLOCK_BUTTON'} == 5) {
-            system("playerctl $player_arg volume 0.01-");
-        }
-    } elsif ($method eq 'rhythmbox') {
-        if ($ENV{'BLOCK_BUTTON'} == 1) {
-            system("rhythmbox-client --previous");
-        } elsif ($ENV{'BLOCK_BUTTON'} == 2) {
-            system("rhythmbox-client --play-pause");
-        } elsif ($ENV{'BLOCK_BUTTON'} == 3) {
-            system("rhythmbox-client --next");
-        }
+    my $player_arg = player_arg();
+    if ($ENV{'BLOCK_BUTTON'} == 1) {
+        system("playerctl $player_arg previous");
+    } elsif ($ENV{'BLOCK_BUTTON'} == 2) {
+        system("playerctl $player_arg play-pause");
+    } elsif ($ENV{'BLOCK_BUTTON'} == 3) {
+        system("playerctl $player_arg next");
+    } elsif ($ENV{'BLOCK_BUTTON'} == 4) {
+        select_next_player();
+    } elsif ($ENV{'BLOCK_BUTTON'} == 5) {
+        select_prev_player();
     }
 }
 
-sub cmus {
-    my @cmus = split /^/, qx(cmus-remote -Q);
-    if ($? == 0) {
-        foreach my $line (@cmus) {
-            my @data = split /\s/, $line;
-            if (shift @data eq 'tag') {
-                my $key = shift @data;
-                my $value = join ' ', @data;
-
-                @metadata[0] = $value if $key eq 'artist';
-                @metadata[1] = $value if $key eq 'title';
-            }
-        }
-
-        if (@metadata) {
-            buttons('cmus');
-
-            # metadata found so we are done
-            print(join ' - ', @metadata);
-            exit 0;
-        }
-    }
-}
-
-sub mpd {
-    my $data = qx(mpc current);
-    if (not $data eq '') {
-        buttons("mpd");
-        print($data);
-        exit 0;
+sub player_arg {
+    my $player_name = get_player();
+    if ($player_name) {
+        return "--player=" . $player_name;
+    } else {
+        return "";
     }
 }
 
 sub playerctl {
-    buttons('playerctl');
+    buttons();
+    my $cached_player = get_player();
+    $cached_player =~ s/\..*$//;
+
+    my $player_arg = player_arg();
 
     my $artist = qx(playerctl $player_arg metadata artist 2> /dev/null);
     chomp $artist;
-    # exit status will be nonzero when playerctl cannot find your player
-    exit(0) if $? || $artist eq '(null)';
-
-    push(@metadata, $artist) if $artist;
 
     my $title = substr qx(playerctl $player_arg metadata title), 0 , -1;
-    exit(0) if $? || $title eq '(null)';
 
-    push(@metadata, $title) if $title;
+    if ($? == 0) {
+        push(@metadata, $artist) if $artist;
+        push(@metadata, $title) if $title;
+    } else {
+        push(@metadata, "Nothing playing");
+    }
+
     my $status = substr qx(playerctl $player_arg status), 0, -1;
     if ($status eq "Playing") {
         $status = "";
@@ -139,26 +154,9 @@ sub playerctl {
         $status = "";
     }
 
-    print(join(" - ", @metadata)." ".$status) if @metadata;
+    print(join(" - ", @metadata)." [".$cached_player."] ".$status) if @metadata;
 }
 
-sub rhythmbox {
-    buttons('rhythmbox');
+playerctl;
 
-    my $data = qx(rhythmbox-client --print-playing --no-start);
-    print($data);
-}
-
-if ($player_arg =~ /mpd/) {
-    mpd;
-}
-# elsif ($player_arg =~ /cmus/) {
-#     cmus;
-# }
-elsif ($player_arg =~ /rhythmbox/) {
-    rhythmbox;
-}
-else {
-    playerctl;
-}
 print("\n");
