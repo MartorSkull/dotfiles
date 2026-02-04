@@ -21,17 +21,14 @@
 use Time::HiRes qw(usleep);
 use Env qw();
 
-my @metadata = ();
-my $player = "";
+$player = "";
 my $cache_file = $ENV{MEDIAPLAYER_CACHE_FILE}
               // "/tmp/mediainfo_" . $ENV{USER};
 
-sub default_player {
-    my $players = qx(playerctl -l 2> /dev/null);
-    chomp $players;
-    my @player_list = split("\n", $players);
+sub get_default_player {
+    my @player_list = get_player_list();
 
-    if (scalar @player_list > 1) {
+    if (scalar @player_list > 0) {
         return $player_list[0];
     }
 }
@@ -59,10 +56,12 @@ sub get_player {
     my $cached_player = read_cached_player();
     if ($cached_player and grep { $_ eq $cached_player } get_player_list()) {
         $player = $cached_player;
+        set_player($cached_player);
         return $cached_player;
     }
 
-    my $default_player = default_player();
+    my $default_player = get_default_player();
+    set_player($default_player);
     $player = $default_player;
     return $default_player;
 }
@@ -130,6 +129,7 @@ sub playerctl {
     buttons();
     my $cached_player = get_player();
     $cached_player =~ s/\..*$//;
+    $cached_player = get_player_list() > 1 ? " [" . $cached_player . "]" : " ";
 
     my $player_arg = player_arg();
 
@@ -138,6 +138,7 @@ sub playerctl {
 
     my $title = substr qx(playerctl $player_arg metadata title), 0 , -1;
 
+    my @metadata = ();
     if ($? == 0) {
         push(@metadata, $artist) if $artist;
         push(@metadata, $title) if $title;
@@ -154,7 +155,7 @@ sub playerctl {
         $status = "";
     }
 
-    print(join(" - ", @metadata)." [".$cached_player."] ".$status) if @metadata;
+    print(join(" - ", @metadata) . $cached_player . $status) if @metadata;
 }
 
 playerctl;

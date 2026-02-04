@@ -134,7 +134,7 @@ function print_block {
     while
         BLOCK=$(echo "$ACTIVE" | awk '/Sink /{count++; if(count==2) exit} {print}')
         ACTIVE=$(echo "$ACTIVE" | tail -n +$(($(echo "$BLOCK" | wc -l)+1)))
-        if [[ -n $(echo "$BLOCK" | grep "State: RUNNING") ]]; then
+        if [[ -n $(echo "$BLOCK" | grep $(pactl get-default-sink)) ]]; then
             read_active_output "$BLOCK"
         fi
         [[ -n $BLOCK ]] && ([[ -z $NAME ]] || [[ " ${IGNORED_SINKS[@]} " =~ " $NAME " ]])
