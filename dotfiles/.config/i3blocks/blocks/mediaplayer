@@ -103,11 +103,11 @@ sub select_prev_player {
 
 sub buttons {
     my $player_arg = player_arg();
-    if ($ENV{'BLOCK_BUTTON'} == 1) {
+    if ($ENV{'BLOCK_BUTTON'} == 1 || $ARGV[0] eq "prev") {
         system("playerctl $player_arg previous");
-    } elsif ($ENV{'BLOCK_BUTTON'} == 2) {
+    } elsif ($ENV{'BLOCK_BUTTON'} == 2 || $ARGV[0] eq "playpause") {
         system("playerctl $player_arg play-pause");
-    } elsif ($ENV{'BLOCK_BUTTON'} == 3) {
+    } elsif ($ENV{'BLOCK_BUTTON'} == 3 || $ARGV[0] eq "next") {
         system("playerctl $player_arg next");
     } elsif ($ENV{'BLOCK_BUTTON'} == 4) {
         select_next_player();

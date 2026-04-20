@@ -1,7 +1,7 @@
 local lsp_zero = require('lsp-zero')
 
 lsp_zero.on_attach(function(client, bufnr)
-  if client.supports_method("textDocument/inlayHint") then
+  if client:supports_method("textDocument/inlayHint") then
     vim.lsp.inlay_hint.enable(true)
   end
   lsp_zero.default_keymaps({buffer = bufnr})
@@ -15,14 +15,13 @@ require('mason-lspconfig').setup({
   }
 })
 
-local lspconfig = require("lspconfig")
-lspconfig.omnisharp.setup({})
+vim.lsp.config['omnisharp'] = {}
 
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
 
-lspconfig.lua_ls.setup {
+vim.lsp.config['lua_ls'] = {
   settings = {
     Lua = {
       runtime = {
@@ -30,10 +29,6 @@ lspconfig.lua_ls.setup {
         version = 'LuaJIT',
         -- Setup your lua path
         path = runtime_path,
-      },
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = { 'vim' },
       },
       workspace = {
         -- Make the server aware of Neovim runtime files

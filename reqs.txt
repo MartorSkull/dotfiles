@@ -33,3 +33,5 @@ xdg-desktop-portal-wlr
 pipewire
 pipewire-pulse
 wireplumber
+
+xembedsniproxy
