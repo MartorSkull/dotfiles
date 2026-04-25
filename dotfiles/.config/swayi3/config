@@ -1,0 +1,230 @@
+#################################
+# Workspace and other variables #
+#################################
+#Workspaces
+set $ws1 1:
+set $ws2 2:
+set $ws3 3:
+set $ws4 4:
+set $ws5 5:
+set $ws6 6:
+set $ws7 7:
+set $ws8 8
+set $ws9 9
+set $ws10 10
+
+set $mod Mod4
+
+font pango:DejaVu Sans $fontsize
+
+#####################
+# Window Management #
+#####################
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# change focus within monitor
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# move focused window within monitor
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# change focus between monitors
+bindsym $mod+Period focus output right
+bindsym $mod+Comma focus output left
+
+# move focused window between monitors
+bindsym $mod+Shift+Period move workspace to output right
+bindsym $mod+Shift+Comma move workspace to output left
+bindsym $mod+Shift+Right move workspace to output right
+bindsym $mod+Shift+Left move workspace to output left
+bindsym $mod+Shift+Up move workspace to output up
+bindsym $mod+Shift+Down move workspace to output down
+
+# split container
+bindsym $mod+o split h
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+bindsym $mod+c focus child
+
+## Floating window movements
+# modifier to move floating windows
+floating_modifier $mod
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# Make window follow the monitors active workspace
+bindsym $mod+minus sticky toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# resize mode for containers
+mode "resize" {
+    # These bindings trigger as soon as you enter the resize mode
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+######################
+# Workspace movement #
+######################
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+Ctrl+1 workspace $ws6
+bindsym $mod+Ctrl+2 workspace $ws7
+bindsym $mod+Ctrl+3 workspace $ws8
+bindsym $mod+Ctrl+4 workspace $ws9
+bindsym $mod+Ctrl+5 workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Ctrl+Shift+1 move container to workspace $ws6
+bindsym $mod+Ctrl+Shift+2 move container to workspace $ws7
+bindsym $mod+Ctrl+Shift+3 move container to workspace $ws8
+bindsym $mod+Ctrl+Shift+4 move container to workspace $ws9
+bindsym $mod+Ctrl+Shift+5 move container to workspace $ws10
+
+########################
+# Signals for i3blocks #
+########################
+# update the keyboard layout when changing xkb changes it
+bindsym Mod1+space exec pkill -SIGRTMIN+13 i3blocks
+
+# update the audio block when default sink changes
+exec --no-startup-id "pactl subscribe | grep --line-buffered 'sink' | while read -r line; do pkill -SIGRTMIN+10 i3blocks; done &"
+
+# update status numlock state
+#bindsym --release Num_Lock exec pkill -SIGRTMIN+11 i3blocks
+
+#############
+# Shortcuts #
+#############
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, i3 only)
+bindsym $mod+Shift+r restart
+
+# exit message for the WM
+bindsym $mod+Shift+e exec "$nag -t warning -m 'Do you want to logout?' -b 'Yes' '$msg exit'"
+
+# start a terminal
+bindsym $mod+Return exec kitty
+
+# start application launcher
+bindsym $mod+d exec --no-startup-id "rofi -show run"
+bindsym $mod+Shift+d exec --no-startup-id "rofi --show run"
+bindsym $mod+Tab exec --no-startup-id "rofi -show window"
+bindsym $mod+Shift+Tab exec --no-startup-id "rofi --show window"
+
+# notification controls
+bindsym $mod+m exec dunstctl close
+bindsym $mod+Shift+m exec dunstctl close-all
+bindsym $mod+n exec dunstctl history-pop
+bindsym $mod+b exec dunstctl set-paused toggle && exec pkill -SIGRTMIN+12 i3blocks
+
+# Player controls
+bindsym XF86AudioPlay exec ~/.config/i3blocks/blocks/mediaplayer playpause
+bindsym XF86AudioPause exec ~/.config/i3blocks/blocks/mediaplayer playpause
+bindsym XF86AudioNext exec ~/.config/i3blocks/blocks/mediaplayer next
+bindsym XF86AudioPrev exec ~/.config/i3blocks/blocks/mediaplayer prev
+
+# Volume controls
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -2%
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +2%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+
+# Brightness control
+bindsym XF86MonBrightnessUp exec --no-startup-id light -A 5
+bindsym XF86MonBrightnessDown exec --no-startup-id light -U 5
+
+# Screenshots
+bindsym --release $mod+Shift+s exec $area_ss
+bindsym --release $mod+Shift+Ctrl+s exec $full_ss
+
+#####################
+# Bar configuration #
+#####################
+bar {
+    font pango:FontAwesome, DejaVu Sans $fontsize
+    status_command i3blocks
+    tray_output $tray_output
+    colors {
+        background $background
+        statusline $mwhite
+
+        focused_workspace  $blue $red $mwhite
+        active_workspace   $lblack $blue $mwhite
+        inactive_workspace $lblack $black #888888
+        urgent_workspace   $mwhite $yellow $red
+    }
+}
+
+###################
+# Visual settings #
+###################
+client.focused          $lblack $red     $white  $lred     $red
+client.focused_inactive $lblack $lblack  $mwhite $lblack   $lblack
+client.unfocused        $black  $black   $mwhite $black    $black
+client.urgent           $yellow $lyellow $white  $yellow   $yellow
+client.placeholder      #000000 #0c0c0c  #ffffff #000000   #0c0c0c
+
+# Border size
+for_window [class="^.*"] border pixel 2
+
+# Floating sizing
+floating_maximum_size -1 x -1
+
+####################
+# Startup programs #
+####################
+exec_always --no-startup-id "easyeffects --gapplication-service"
+exec --no-startup-id "lxsession"
+
+#########################
+# Workspace assignments #
+#########################
+assign [app_id="^firefox"] $ws1
+assign [class="^chromium$"] $ws1
+assign [app_id="^chromium$"] $ws1
+assign [app_id="^code$"] $ws2
+assign [class="^steam$"] $ws2
+assign [app_id="^Thunar$"] $ws4
+assign [class="^Spotify$"] $ws5
+assign [app_id="^feishin$"] $ws5
+assign [class="^discord$"] $ws6
+

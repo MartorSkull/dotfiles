@@ -14,6 +14,7 @@ dunst
 maim
 rofi
 feh
+light
 
 pavucontrol
 imagemagick
