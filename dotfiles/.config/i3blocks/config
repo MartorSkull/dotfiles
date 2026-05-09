@@ -87,10 +87,10 @@ command=date "+%H:%M:%S"
 interval=1
 label=
 
-[keyindicator]
-interval=once
-instance=NUM
-signal=11
+# [keyindicator]
+# interval=once
+# instance=NUM
+# signal=11
 
 [dunst]
 interval=once
