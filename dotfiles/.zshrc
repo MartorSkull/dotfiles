@@ -84,3 +84,6 @@ else
     fi
 fi
 
+if [ -d "$HOME/.zshrc.d" ]; then
+    source zshrc.d/*.sh
+fi

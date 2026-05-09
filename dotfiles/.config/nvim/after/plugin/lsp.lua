@@ -1,18 +1,17 @@
-local lsp_zero = require('lsp-zero')
 
-lsp_zero.on_attach(function(client, bufnr)
-  if client:supports_method("textDocument/inlayHint") then
-    vim.lsp.inlay_hint.enable(true)
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('my.lsp', {}),
+  callback = function(ev)
+    local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
+    if client:supports_method("textDocument/inlayHint") then
+      vim.lsp.inlay_hint.enable(true)
+    end
   end
-  lsp_zero.default_keymaps({buffer = bufnr})
-end)
+})
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
   ensure_installed = {'pylsp', 'rust_analyzer', 'clangd', 'omnisharp', 'lua_ls'},
-  handlers = {
-    lsp_zero.default_setup,
-  }
 })
 
 vim.lsp.config['omnisharp'] = {}
@@ -40,6 +39,10 @@ vim.lsp.config['lua_ls'] = {
       },
     },
   },
+}
+
+vim.lsp.config['dartls'] = {
+  cmd = {'dart', 'language-server', '--protocol=lsp'},
 }
 
 local cmp = require('cmp')

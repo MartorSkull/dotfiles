@@ -1,21 +1,21 @@
-require('nvim-treesitter.configs').setup({
-  ensure_installed = { "rust", "python", "javascript", "bash", "c", "lua", "vim", "vimdoc", "query" },
-  sync_install = false,
+local langs = {
+  'bash',
+  'c',
+  'dart',
+  'git',
+  'javascript',
+  'lua',
+  'python',
+  'query',
+  'rust',
+  'vim',
+  'vimdoc',
+}
 
-  auto_install = true,
-  ignore_install = {},
+require('nvim-treesitter').install(langs)
 
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
-  },
-  italic = {
-    enable = false,
-  },
-
-  modules = {},
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = langs,
+  callback = function() vim.treesitter.start() end,
 })
 
-vim.filetype.add({
-  pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },
-})

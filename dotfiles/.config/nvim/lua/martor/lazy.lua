@@ -17,7 +17,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.3',
+    -- tag = 'master',
     dependencies = { { 'nvim-lua/plenary.nvim' } },
   },
 
@@ -37,9 +37,10 @@ require('lazy').setup({
 
   {
     'nvim-treesitter/nvim-treesitter',
+    lazy = false,
     build = ':TSUpdate'
   },
-  'nvim-treesitter/playground',
+  -- 'nvim-treesitter/playground',
   'mbbill/undotree',
   'tpope/vim-fugitive',
   'numToStr/Comment.nvim',
@@ -47,10 +48,6 @@ require('lazy').setup({
   'williamboman/mason.nvim',
   'williamboman/mason-lspconfig.nvim',
 
-  {
-    'VonHeikemen/lsp-zero.nvim',
-    branch = 'v3.x',
-  },
   'neovim/nvim-lspconfig',
   'hrsh7th/cmp-nvim-lsp',
   'hrsh7th/nvim-cmp',

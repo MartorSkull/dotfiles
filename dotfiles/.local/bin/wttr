@@ -1,9 +1,4 @@
 #!/bin/sh
 
 API="wttr.in/"
-DEFAULT="cordoba_capital"
-if [[ -n $1 ]]; then
-	curl $(echo $API~$1)
-else
-	curl $(echo $API~$DEFAULT)
-fi
+curl $(echo $API~$1)
